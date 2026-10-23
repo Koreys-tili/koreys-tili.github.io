@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#cd2e3a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Koreys tili</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#f6f7fb;--tx:#151a2d;--mute:#8b93a7;--line:#e8ebf4;--ind:#4f46e5;--grad:linear-gradient(135deg,#4338ca,#7e22ce);--ok:#10b981;--no:#ef4444;--sh:0 8px 26px rgba(30,41,90,.07)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.hide{display:none!important}
+.wrap,main{max-width:520px;margin:auto;padding-left:16px;padding-right:16px}main{padding-top:18px;padding-bottom:48px}
+header{position:sticky;top:0;z-index:9;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer;font-size:24px;font-weight:800;letter-spacing:-.3px}.brand b{color:var(--ind)}
+.lg{width:44px;height:44px;border-radius:15px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 8px 18px rgba(79,70,229,.35)}
+.hb{width:48px;height:48px;border-radius:16px;border:1px solid var(--line);background:#f1f3f9;color:var(--tx);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.drawer{position:absolute;left:0;right:0;top:100%;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 20px 30px rgba(30,41,90,.12);padding:8px 0 18px}
+.di{display:flex;align-items:center;gap:14px;width:100%;border:0;background:none;padding:14px 12px;border-radius:16px;font-size:16px;font-weight:600;font-family:inherit;color:var(--tx);text-align:left;cursor:pointer}
+.di.on{background:#eef0ff;color:#4338ca}.di span:first-child{font-size:20px;width:28px;text-align:center}
+.dl{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--mute);margin:14px 12px 8px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pl{border:1.5px solid var(--line);background:#fff;color:var(--tx);border-radius:999px;padding:9px 16px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer}.pl.on{background:var(--grad);border-color:transparent;color:#fff}
+.drawer .pills{padding:0 12px}
+.hero{position:relative;overflow:hidden;background:var(--grad);color:#fff;border-radius:36px;padding:26px 24px;margin-bottom:16px;box-shadow:0 16px 34px rgba(79,70,229,.28)}
+.hero h1{font-size:30px;line-height:1.15;margin:14px 0 8px;letter-spacing:-.4px}.hero p{margin:0;opacity:.85}
+.ghost{position:absolute;right:-6px;bottom:-24px;font-size:110px;font-weight:800;color:rgba(255,255,255,.1);line-height:1;pointer-events:none}
+.bd{display:inline-block;background:#fbbf24;color:#4a2f00;font-weight:800;font-size:12px;padding:7px 14px;border-radius:999px}
+.wbtn{background:#fff;color:#1e1b4b;border:0;border-radius:999px;padding:15px 26px;font-weight:700;font-size:16px;font-family:inherit;box-shadow:0 8px 20px rgba(0,0,0,.18);cursor:pointer;margin-top:20px}
+.menu2{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.mp{flex:1 1 auto;background:#fff;border:1px solid var(--line);border-radius:999px;padding:13px 18px;font-weight:700;font-size:15px;color:#3b3fb8;font-family:inherit;box-shadow:0 2px 8px rgba(30,41,90,.05);cursor:pointer}
+.mp.full{display:block;width:100%;margin-top:10px}.mp.red{color:var(--no)}.mp.on{background:var(--grad);color:#fff;border-color:transparent}
+.sc{--c:#4f46e5;--t:#eef0ff;background:#fff;border-radius:30px;border-left:7px solid var(--c);padding:22px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--sh)}
+.c2{--c:#f59e0b;--t:#fff6e0}.c3{--c:#10b981;--t:#e6f8f1}.c4{--c:#7c3aed;--t:#f3ecff}.c5{--c:#06b6d4;--t:#e3f8fc}.sc.col{display:block}
+.lb{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--mute)}
+.nm{font-size:40px;font-weight:800;color:var(--c);line-height:1.15}.nm small{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:700}
+.ti{width:58px;height:58px;border-radius:19px;background:var(--t);color:var(--c);display:flex;align-items:center;justify-content:center;flex:none}
+.gl{display:flex;justify-content:space-between;align-items:center}
+.bar{height:9px;border-radius:9px;background:var(--line);overflow:hidden;margin:10px 0 14px}.bar i{display:block;height:100%;width:0;background:var(--grad);border-radius:9px;transition:width .4s}
+.card{background:#fff;border-radius:30px;padding:20px;margin-bottom:14px;box-shadow:var(--sh)}.card h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:0 0 14px}
+.hint{color:var(--mute);font-size:14px}.meta{text-align:center;font-size:13px;font-weight:700;color:var(--mute)}
+.btn{display:block;width:100%;border:0;border-radius:999px;padding:16px 18px;margin-top:12px;font-weight:700;font-size:16px;font-family:inherit;background:var(--grad);color:#fff;box-shadow:0 10px 22px rgba(79,70,229,.28);cursor:pointer}
+.btn.alt{background:#fff;color:#3b3fb8;border:1px solid var(--line);box-shadow:none}
+.btn:active,.ic:active,.opt:active,.mp:active,.wbtn:active{transform:scale(.97)}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.ic{width:50px;height:50px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ind);display:inline-flex;align-items:center;justify-content:center;box-shadow:var(--sh);cursor:pointer;flex:none}.ic.s{width:38px;height:38px}.ctr{text-align:center;margin:14px 0 2px}
+.flip{perspective:900px;height:230px;cursor:pointer}.flip>div{position:relative;height:100%;transition:transform .5s;transform-style:preserve-3d}.flip.on>div{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:34px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;box-shadow:var(--sh);border:1px solid var(--line)}
+.face.b{transform:rotateY(180deg);background:var(--grad);color:#fff;border:0}
+.kr{font-size:46px;font-weight:700;line-height:1.15}.mn{font-size:30px;font-weight:800}.pr{opacity:.85;margin-top:6px}.big{font-size:56px;font-weight:800;line-height:1.1}.em{font-size:44px}
+.q{font-size:32px;font-weight:800;text-align:center;padding:8px 0}.qc{margin-top:6px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:14px 16px;margin-top:10px;border-radius:22px;border:1.5px solid var(--line);background:#fff;font-size:17px;font-weight:600;font-family:inherit;color:var(--tx);box-shadow:var(--sh);cursor:pointer}
+.lt{width:34px;height:34px;border-radius:12px;background:#eef0ff;color:#4338ca;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff}.opt.no{background:var(--no);border-color:var(--no);color:#fff}.opt.ok .lt,.opt.no .lt{background:rgba(255,255,255,.25);color:#fff}
+.seg{display:flex;background:#e9ecf6;border-radius:999px;padding:4px;margin-bottom:14px}.seg button{flex:1;border:0;background:none;border-radius:999px;padding:11px;font-weight:700;font-size:14px;font-family:inherit;color:var(--mute);cursor:pointer}.seg button.on{background:#fff;color:#3b3fb8;box-shadow:0 2px 8px rgba(30,41,90,.1)}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.cell{border:1.5px solid var(--line);border-radius:18px;background:#fff;color:var(--tx);padding:12px 0;font-size:26px;font-weight:700;font-family:inherit;box-shadow:0 2px 8px rgba(30,41,90,.05);cursor:pointer}.cell.on{background:var(--grad);border-color:transparent;color:#fff}
+.det{text-align:center}.det .big{color:var(--ind);font-size:80px}.det .ex{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px;font-size:18px;font-weight:600}
+.pro{display:flex;align-items:center;gap:16px}.av{position:relative;overflow:hidden;width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,.22);border:2px solid rgba(255,255,255,.6);font-size:28px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pn{font-size:24px;font-weight:800;line-height:1.15}.pu{opacity:.8;font-size:14px}
+.lv{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:14px 16px;margin-bottom:10px;font-family:inherit;color:var(--tx);cursor:pointer}.lv small{color:var(--mute)}.lv.on{border-color:var(--ind);background:#f5f4ff}
+.rd{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:none}.lv.on .rd{border:7px solid var(--ind)}
+input{width:100%;padding:15px 20px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--tx);font-size:18px;font-family:inherit;margin-top:12px}
+.err{color:var(--no);min-height:20px;margin-top:8px;font-size:14px}
+.un{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:26px;padding:16px;margin-bottom:12px;box-shadow:var(--sh);font-family:inherit;color:var(--tx);cursor:pointer}
+.un>div:last-child{flex:1}.un .eb{width:54px;height:54px;border-radius:18px;background:#eef0ff;display:flex;align-items:center;justify-content:center;font-size:26px;flex:none}
+.un b{display:block;font-size:17px}.un small{color:var(--mute)}.un .bar{margin:8px 0 0;height:7px}
+.sen{background:#fff;border-radius:26px;padding:18px;margin-bottom:12px;box-shadow:var(--sh);display:flex;gap:12px;align-items:center}.sen>div{flex:1}
+.sen .k{font-size:22px;font-weight:700;line-height:1.35}.sen .p{color:var(--ind);font-size:14px;margin-top:2px}.sen .m{color:var(--mute);margin-top:6px}
+.tx{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:10px 14px;font-size:20px;font-weight:600;font-family:inherit;color:var(--tx);box-shadow:0 2px 8px rgba(30,41,90,.05);cursor:pointer}.tx:disabled{opacity:.25}
+.ans{min-height:76px;border:2px dashed #cfd5e6;border-radius:22px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;background:#fff}.ans.ok{border:2px solid var(--ok);background:#e6f8f1}.ans.no{border:2px solid var(--no);background:#fdecec}
+.bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:8px}.gt{font-size:17px;line-height:1.6}.gt p{margin:0 0 12px}
+body{background:#0047a0;color:#fff;position:relative;overflow-x:hidden}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}#bg svg{width:100%;height:100%;display:block}
+header,main{position:relative;z-index:2}header{z-index:6;background:none;border:0;position:relative}main{padding-bottom:124px}
+:root{--grad:linear-gradient(135deg,#1d4ed8,#0b2a6b);--tx:#14203f}
+.top{display:grid;grid-template-columns:64px 1fr 64px;align-items:center;padding:14px 0 6px}
+.gchip,.hb{border:1.5px solid rgba(255,255,255,.65);background:rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-family:inherit}
+.gchip{justify-self:start;border-radius:999px;padding:10px 16px;font-weight:800;font-size:14px;cursor:pointer}.hb{justify-self:end;width:46px;height:46px;border-radius:50%}
+#ttl{text-align:center;font-weight:900;font-size:26px;letter-spacing:1px;text-shadow:0 4px 18px rgba(0,0,0,.28);font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;transition:font-size .25s}
+#hd.tall #ttl{font-size:60px;margin:8px 0 4px}
+.lmenu{position:absolute;left:16px;top:64px;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.28);z-index:20}
+.lmenu button{display:block;width:100%;padding:13px 28px;border:0;background:none;font:inherit;color:var(--tx);text-align:left;cursor:pointer}.lmenu button.on{color:#0047a0;font-weight:800}
+.hl{text-align:center;font-weight:700;opacity:.92;margin-bottom:10px}
+.chips{display:flex;justify-content:center;gap:10px;margin-bottom:22px}.chips span{padding:7px 15px;border-radius:999px;border:1.5px solid rgba(255,255,255,.55);background:rgba(255,255,255,.12);font-weight:700;font-size:14px}
+#lp{display:flex;flex-direction:column;gap:16px;padding-bottom:10px}
+.ls{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;width:80%;padding:13px 20px 13px 14px;border-radius:999px;border:1.8px solid rgba(255,255,255,.72);background:rgba(255,255,255,.13);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font-family:inherit;text-align:left;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.16)}
+.ls.l{align-self:flex-start}.ls.r{align-self:flex-end}.ls:active{transform:scale(.98)}
+.ls .ld{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:800;flex:none}
+.ls b{display:block;font-size:20px;line-height:1.2}.ls small{opacity:.88;font-size:13px}
+.ls .lb2{position:absolute;left:0;bottom:0;height:4px;background:#fff}
+.ls.now{background:rgba(255,255,255,.27);border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.2),0 10px 28px rgba(0,0,0,.24)}
+.pnav{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(92%,420px);display:flex;justify-content:space-between;padding:8px 10px;border-radius:999px;background:rgba(8,28,88,.62);border:1.5px solid rgba(255,255,255,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(0,0,0,.28);z-index:10}
+.pnav button{width:50px;height:50px;border-radius:50%;border:0;background:none;color:#fff;display:flex;align-items:center;justify-content:center;font-family:inherit;cursor:pointer}.pnav button.on{background:#fff;color:#0b2a6b}.pnav b{font-size:21px;font-weight:900}
+.card,.sc,.un,.sen,.lv,.opt,.cell,.tx,.ans,.face,.lc{color:var(--tx)}
+main>section>.hint,main>section>.meta,main>section>div>.meta{color:rgba(255,255,255,.88)}
+.bar{background:rgba(255,255,255,.3)}.card .bar,.un .bar,.sc .bar{background:var(--line)}
+.btn{background:#fff;color:#0b2a6b;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+.btn.alt{background:rgba(255,255,255,.16);color:#fff;border:1.5px solid rgba(255,255,255,.65);box-shadow:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.card .btn{background:var(--grad);color:#fff;box-shadow:none}.card .btn.alt{background:#f1f3f9;color:#3b3fb8;border:0}
+.lside{justify-self:start}.hb.bk.hide{display:none!important}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.mini{background:#fff;color:var(--tx);border-radius:24px;padding:16px;box-shadow:var(--sh)}.mini .ti{width:42px;height:42px;border-radius:14px;margin-bottom:10px;background:#eef0ff;color:#4f46e5}.mini b{display:block;font-size:26px;line-height:1.1}.mini span{font-size:11px;color:var(--mute);letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.rbar{margin:14px 0 6px}.sm2{font-size:12px;opacity:.85}.bd.rk{background:#fff;color:#0b2a6b}
+.wkc{display:flex;align-items:flex-end;gap:8px;height:110px}.wkc>div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px}.wkc i{display:block;width:100%;min-height:4px;background:var(--grad);border-radius:8px}.wkc span{font-size:11px;color:var(--mute)}
+.bgs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.bgd{text-align:center;opacity:.3;filter:grayscale(1)}.bgd.on{opacity:1;filter:none}.bgd div{font-size:32px}.bgd small{display:block;font-size:12px;color:var(--mute);line-height:1.25}
+.chipg{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:12px}.cell.s{font-size:20px;padding:8px 0;border-radius:12px}
+#hgt{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;margin-bottom:14px;padding-bottom:4px}#hgt .pl{white-space:nowrap;flex:none}
+.vbox iframe,.vbox video{width:100%;aspect-ratio:16/9;border:0;border-radius:20px;background:#000;display:block}
+.arow{display:flex;align-items:center;gap:8px;background:#fff;color:var(--tx);border-radius:24px;padding:12px;margin-bottom:10px;box-shadow:var(--sh)}.arow .eb{font-size:26px;width:40px;text-align:center}.at{flex:1;min-width:0}.at b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.at small{color:var(--mute)}
+.card label{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:700;margin:16px 0 2px}
+textarea{width:100%;min-height:110px;padding:14px 16px;border-radius:20px;border:1.5px solid var(--line);background:#fff;color:var(--tx);font-size:15px;line-height:1.5;font-family:inherit;margin-top:8px}
+.hint2{font-size:14px;color:var(--mute);line-height:1.5}
+.xpn{text-align:center;padding:22px 18px;border-radius:34px;border:1.8px solid rgba(255,255,255,.72);background:rgba(255,255,255,.13);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.16);margin-bottom:16px}
+.xav{width:104px;height:104px;border-radius:50%;margin:0 auto 12px;border:2.5px solid #fff;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;color:#fff}.xav img{width:100%;height:100%;object-fit:cover}
+.xnm{font-size:24px;font-weight:800;cursor:pointer}.xnm i{font-style:normal;opacity:.7;font-size:16px}.xus{opacity:.85;font-size:14px;min-height:4px}
+.xbd{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0 4px}.xpn .bar i{background:#fff}
+.xrow{display:flex;gap:14px;margin-bottom:14px}
+.xg{display:flex;align-items:center;gap:12px;border:1.8px solid rgba(255,255,255,.72);background:rgba(255,255,255,.13);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font-family:inherit;text-align:left;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.16)}.xg:active{transform:scale(.98)}
+.xg b{font-size:28px;font-weight:400}.xg em{font-style:normal;font-weight:800;font-size:17px;display:block}.xg small{opacity:.88;font-size:13px}
+.xn,.xs{flex-direction:column;justify-content:center;gap:6px;text-align:center;height:104px}.xn span,.xs span{font-weight:800;font-size:14px}
+.xn{flex:0 0 76px;border-radius:999px}.xs{flex:0 0 108px;border-radius:34px}
+.xw{flex:1;height:104px;border-radius:999px;padding:0 20px;min-width:0}.xb{width:100%;height:84px;border-radius:999px;padding:0 24px}.xb div{flex:1}.xb i{font-style:normal;font-size:30px;opacity:.85}
+</style></head><body>
+<div id="bg"><svg viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="800" fill="#0047a0"/>
+<path d="M0 0H400V250C355 292 312 262 262 318C212 374 140 368 92 428C52 478 26 462 0 492Z" fill="#cd2e3a"/>
+<path d="M400 290C355 332 312 302 262 358C212 414 140 408 92 468C52 518 26 502 0 532" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="2"/>
+<path d="M400 560C340 600 300 560 240 610C180 660 120 640 60 690C30 716 15 706 0 720" fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="2"/>
+<g font-family="Noto Sans KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-weight="800" fill="#fff" fill-opacity=".13"><text x="40" y="90" font-size="70" transform="rotate(-12 40 90)">ㅎ</text><text x="300" y="60" font-size="60" transform="rotate(10 300 60)">ㄱ</text><text x="150" y="170" font-size="90" transform="rotate(-6 150 170)">한</text><text x="330" y="250" font-size="70" transform="rotate(14 330 250)">ㅏ</text><text x="60" y="330" font-size="80" transform="rotate(8 60 330)">글</text><text x="250" y="380" font-size="84" transform="rotate(-10 250 380)">사</text><text x="30" y="520" font-size="66" transform="rotate(12 30 520)">ㅂ</text><text x="190" y="560" font-size="90" transform="rotate(6 190 560)">랑</text><text x="340" y="500" font-size="64" transform="rotate(-14 340 500)">ㅗ</text><text x="90" y="700" font-size="72" transform="rotate(-8 90 700)">ㅁ</text><text x="260" y="720" font-size="88" transform="rotate(10 260 720)">꿈</text><text x="360" y="760" font-size="60" transform="rotate(-6 360 760)">ㄴ</text><text x="150" y="430" font-size="64" transform="rotate(-12 150 430)">어</text></g></svg></div>
+<header id="hd"><div class="wrap"><div class="top"><div class="lside"><button class="gchip" id="lgc" onclick="$('lm').classList.toggle('hide')"></button><button class="hb bk hide" id="bkb" onclick="back()" aria-label="Back"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div><div id="ttl">한국어</div>
+<button class="hb" onclick="toggleMenu(event)" aria-label="Menu"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div>
+<div class="lmenu hide" id="lm"><button data-l="uz" onclick="setLang('uz')">Oʻzbekcha</button><button data-l="ru" onclick="setLang('ru')">Русский</button><button data-l="en" onclick="setLang('en')">English</button></div>
+<div class="drawer hide" id="dr"><div class="wrap">
+<button class="di" onclick="tab(0);toggleMenu()"><span>🏠</span><span data-i="nav0"></span></button>
+<button class="di" onclick="tab(1);toggleMenu()"><span>📚</span><span data-i="nav1"></span></button>
+<button class="di" onclick="tab(2);toggleMenu()"><span>🎯</span><span data-i="nav2"></span></button>
+<button class="di" onclick="tab(3);toggleMenu()"><span>🔤</span><span data-i="nav3"></span></button>
+<button class="di" onclick="tab(4);toggleMenu()"><span>👤</span><span data-i="nav4"></span></button>
+<button class="di hide" id="inst" onclick="installApp()"><span>⬇️</span><span data-i="ins"></span></button>
+<div class="dl" data-i="lng"></div><div class="pills"><button class="pl" data-l="uz" onclick="setLang('uz')">Oʻzbekcha</button><button class="pl" data-l="ru" onclick="setLang('ru')">Русский</button><button class="pl" data-l="en" onclick="setLang('en')">English</button></div>
+</div></div></header>
+<main>
+<section id="home"><div class="hl" id="hl"></div><div class="chips" id="hc"></div><div id="lp"></div></section>
+
+<section id="ob1" class="hide"><div class="hero"><h1 data-i="ob1t"></h1><p data-i="ob1p"></p><div class="ghost">TOPIK</div></div>
+<button class="btn alt" data-i="no" onclick="setLevel(1)"></button><button class="btn" data-i="yes" onclick="go('ob2')"></button></section>
+
+<section id="ob2" class="hide"><div class="card"><h3 data-i="which"></h3><div class="row"><button class="mp tp" onclick="pickT(1)">TOPIK I</button><button class="mp tp" onclick="pickT(2)">TOPIK II</button></div>
+<div id="sbox" class="hide"><input id="sc" type="number" inputmode="numeric"><div class="err" id="er"></div><button class="btn" data-i="calc" onclick="place()"></button></div></div>
+<div class="hint" style="padding:0 8px" data-i="hint"></div></section>
+
+<section id="ob3" class="hide"><div class="hero"><span class="bd" data-i="rt"></span><h1 id="r1"></h1><p id="r2"></p><div style="margin-top:16px"><span style="opacity:.75;font-size:13px" data-i="fit"></span><br><b id="r3" style="font-size:18px"></b></div><div class="ghost">결과</div></div>
+<button class="btn" data-i="start" onclick="setLevel(NL)"></button><button class="btn alt" data-i="re" onclick="go('ob2')"></button></section>
+
+<section id="ul" class="hide"><div class="hero"><span class="bd" id="ut"></span><h1 data-i="nav1"></h1><p data-i="h3"></p><div class="ghost">수업</div></div><div id="un"></div></section>
+
+<section id="uh" class="hide"><div class="hero"><span class="bd" id="ub"></span><div class="em" id="ue" style="margin-top:12px"></div><h1 id="uh1" style="margin-top:6px"></h1><div class="ghost">수업</div></div><div id="uk"></div><button class="btn alt" data-i="bk2" onclick="back()"></button></section>
+
+<section id="sn" class="hide"><div class="meta" data-i="sw"></div><div id="sl" style="margin-top:12px"></div><button class="btn alt" data-i="bk2" onclick="back()"></button></section>
+
+<section id="gm" class="hide"><div class="meta" data-i="gm"></div><div class="card" style="margin-top:12px"><div class="gt" id="gt"></div></div><button class="btn alt" data-i="bk2" onclick="back()"></button></section>
+
+<section id="rx" class="hide"><div class="meta" id="rn"></div><div class="bar"><i id="rb"></i></div><div class="card" style="text-align:center"><div class="hint" data-i="exh"></div><div class="mn" id="rm" style="font-size:20px;margin-top:8px"></div></div><div class="ans" id="ra"></div><div class="bank" id="rk"></div><button class="btn alt" data-i="bk2" onclick="back()"></button></section>
+
+<section id="cd" class="hide"><div class="meta" id="cn"></div><div class="bar"><i id="cb2"></i></div>
+<div class="flip" id="fl" onclick="this.classList.toggle('on')"><div><div class="face"><div class="kr" id="cf"></div><div class="hint" style="margin-top:10px" data-i="tap"></div></div><div class="face b"><div class="mn" id="cb"></div><div class="pr" id="cp"></div></div></div></div>
+<div class="ctr"><button class="ic" onclick="speak(cur[0])"></button></div>
+<div class="row"><button class="btn alt" data-i="again" onclick="nextCard(0)"></button><button class="btn" data-i="know" onclick="nextCard(1)"></button></div>
+<button class="btn alt" data-i="bk2" onclick="back()"></button></section>
+
+<section id="qz" class="hide"><div class="meta" id="qn"></div><div class="bar"><i id="qb"></i></div><div class="card qc"><div class="q" id="qq"></div></div><div id="qo"></div></section>
+
+<section id="qr" class="hide"><div class="hero" style="text-align:center"><span class="bd" data-i="qres"></span><div class="em" id="qe" style="margin-top:12px"></div><div class="big" id="qs"></div><p id="qx"></p><div class="ghost">퀴즈</div></div>
+<button class="btn" data-i="retry" onclick="startQuiz(QPL||qu)"></button><button class="btn alt" data-i="home2" onclick="home()"></button></section>
+
+<section id="hg" class="hide"><div class="pills" id="hgt"></div><div id="hgb"></div></section>
+<section id="vd" class="hide"><div class="card"><h3 id="vt"></h3><div class="vbox" id="vp"></div><div class="hint2" style="margin-top:12px" data-i="vn"></div></div></section>
+<section id="ad" class="hide"><div id="adb"></div></section>
+<section id="ae" class="hide"><div id="aeb"></div></section>
+
+<section id="pf" class="hide"><div id="pfb"></div></section>
+<section id="ps" class="hide"><div class="meta" id="pst" style="font-size:17px;margin-bottom:14px"></div><div id="psb"></div></section>
+</main>
+<nav id="nv" class="pnav hide"></nav>
+<script>
+const tg=window.Telegram&&Telegram.WebApp;
+try{tg&&(tg.ready(),tg.expand(),tg.setHeaderColor("#cd2e3a"),tg.setBackgroundColor("#0047a0"))}catch(e){}
+const $=id=>document.getElementById(id);
+const KEY="koreys_v1",GOAL=30,SP='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+document.querySelectorAll(".ic").forEach(e=>e.innerHTML=SP);
+const DEF={lvl:0,xp:0,streak:0,last:"",day:"",today:0,known:[],lang:"",qz:0,qc:0,qt:0,goal:30,hist:{},name:""};
+let S=JSON.parse(JSON.stringify(DEF));
+try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
+const U=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
+if(!S.lang)S.lang={ru:"ru",en:"en"}[U&&U.language_code]||"uz";
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const day=o=>new Date(Date.now()-o*864e5).toLocaleDateString("sv");
+const stk=()=>S.last===day(0)||S.last===day(1)?S.streak:0;
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
+const hap=k=>{try{tg.HapticFeedback.notificationOccurred(k)}catch(e){}};
+const I=`sub|Koreys tilini oʻrganing|Учите корейский|Learn Korean
+nav0|Bosh|Главная|Home
+nav1|Soʻzlar|Слова|Words
+nav2|Viktorina|Викторина|Quiz
+nav3|Hangul|Хангыль|Hangul
+nav4|Profil|Профиль|Profile
+hi|Salom, #!|Привет, #!|Hi, #!
+fr|doʻst|друг|friend
+xp|Umumiy ball|Всего баллов|Total points
+st|Ketma-ket kunlar|Дней подряд|Day streak
+kn|Oʻrganilgan soʻzlar|Выученные слова|Words learned
+goal|Bugungi maqsad|Цель на сегодня|Today's goal
+lvl|Sizning darajangiz|Ваш уровень|Your level
+lf|#-daraja|Уровень #|Level #
+l1|Boshlangʻich|Начальный|Beginner
+l2|Oʻrta-quyi|Ниже среднего|Lower-intermediate
+l3|Oʻrta|Средний|Intermediate
+l4|Yuqori|Продвинутый|Advanced
+go|Darsni boshlash|Начать урок|Start lesson
+ob1t|Xush kelibsiz!|Добро пожаловать!|Welcome!
+ob1p|Koreys tilidan sertifikatingiz bormi? Javobingizga qarab darslar oson yoki qiyin boʻladi.|Есть ли у вас сертификат по корейскому? От ответа зависит сложность уроков.|Do you have a Korean language certificate? Your answer sets the lesson difficulty.
+no|Yoʻq, boshidan boshlayman|Нет, начну с нуля|No, I'll start from scratch
+yes|Ha, sertifikatim bor|Да, есть сертификат|Yes, I have one
+which|Qaysi sertifikat?|Какой сертификат?|Which certificate?
+ph|Ball (0–#)|Баллы (0–#)|Score (0–#)
+calc|Darajani aniqlash|Определить уровень|Find my level
+err|Ball 0 dan # gacha butun son boʻlishi kerak.|Баллы — целое число от 0 до #.|Score must be a whole number from 0 to #.
+hint|TOPIK I: 80 ball — 1-daraja, 140 — 2-daraja. TOPIK II: 120 — 3, 150 — 4, 190 — 5, 230 — 6-daraja. Bundan past ball daraja bermaydi.|TOPIK I: 80 баллов — 1 уровень, 140 — 2. TOPIK II: 120 — 3, 150 — 4, 190 — 5, 230 — 6. Ниже этих баллов уровень не присваивается.|TOPIK I: 80 points = Level 1, 140 = Level 2. TOPIK II: 120 = Level 3, 150 = 4, 190 = 5, 230 = 6. Below these scores no level is awarded.
+rt|Natijangiz|Ваш результат|Your result
+fit|Sizga mos daraja|Подходящий уровень|Your lesson level
+start|Shu darajadan boshlayman|Начать с этого уровня|Start at this level
+re|Ballni qayta kiritish|Ввести баллы заново|Re-enter score
+gr|TOPIK #-daraja|TOPIK, уровень #|TOPIK Level #
+ng|Daraja yoʻq|Уровня нет|No level
+e0|Hozircha past natija. Xafa boʻlmang, asosdan mustahkamlaymiz.|Пока низкий результат. Не переживайте, начнём с основ.|Low score for now. No worries, we'll build from the basics.
+e1|Yaxshi, shu ball bilan boshlash mumkin.|Хорошо, с этим баллом можно начинать.|Good, you can start with this score.
+e2|Yaxshi natija, keyingi darajaga oz qoldi.|Хороший результат, до следующего уровня немного.|Good result, close to the next level.
+e3|Juda yaxshi natija!|Очень хороший результат!|Very good result!
+e4|Aʼlo natija!|Отличный результат!|Excellent result!
+e5|Ajoyib! Mukammal natija!|Великолепно! Превосходный результат!|Outstanding! Perfect result!
+tap|Bosing, tarjimasi chiqadi|Нажмите, чтобы увидеть перевод|Tap to see the translation
+know|Bilaman|Знаю|I know it
+again|Yana takrorlayman|Повторить|Review again
+qres|Natija|Результат|Result
+gain|+# ball oldingiz|+# баллов|+# points
+retry|Yana urinib koʻraman|Ещё раз|Try again
+home2|Bosh sahifa|На главную|Home
+vow|Unlilar|Гласные|Vowels
+con|Undoshlar|Согласные|Consonants
+choose|Darajani tanlash|Выбор уровня|Choose level
+redo|Sertifikat boʻyicha qayta aniqlash|Определить заново по сертификату|Re-check by certificate
+snd|Ovoz ishlamadi. Internetni tekshiring.|Звук не работает. Проверьте интернет.|Audio failed. Check your internet.
+b1|Koreys|Корейский|Korean
+b2|Tili|язык|Class
+h2|Kuniga 10 daqiqa — katta natija|10 минут в день — большой результат|10 minutes a day makes a difference
+u1|ball|б.|pts
+u2|kun|дн.|days
+u3|ta soʻz|слов|words
+u4|ta|шт.|done
+u5|%|%|%
+qz|Viktorinalar|Викторины|Quizzes
+acc|Aniqlik|Точность|Accuracy
+lng|Til|Язык|Language
+pgoal|Kunlik maqsad|Дневная цель|Daily goal
+reset|Progressni tozalash|Сбросить прогресс|Reset progress
+rc|Barcha ball va soʻzlar oʻchiriladi. Davom etasizmi?|Все баллы и слова будут удалены. Продолжить?|All points and words will be deleted. Continue?
+ld1|Hangul, salomlashish, kundalik soʻzlar|Хангыль, приветствия, базовые слова|Hangul, greetings, everyday words
+ld2|Ish, bozor, transport|Работа, рынок, транспорт|Work, market, transport
+ld3|Hujjatlar, viza, ishga joylashish|Документы, виза, трудоустройство|Documents, visa, employment
+ld4|Iqtisodiyot, jamiyat, fikr bildirish|Экономика, общество, выражение мнения|Economy, society, opinions
+wd|Soʻzlar|Слова|Words
+sw|Gaplar|Фразы|Sentences
+gm|Grammatika|Грамматика|Grammar
+ex|Gap tuzish mashqi|Составь фразу|Build the sentence
+exh|Gapni koreyscha tuzing|Составьте фразу по-корейски|Build the sentence in Korean
+h3|Har darsda: soʻzlar, gaplar, grammatika va mashq|В каждом уроке: слова, фразы, грамматика и практика|Each lesson: words, sentences, grammar and practice
+bk|Darslar roʻyxatiga|К списку уроков|Back to lessons
+bh|Darsga qaytish|Назад к уроку|Back to lesson
+ins|Ilovani oʻrnatish|Установить приложение|Install the app
+ds|#-dars|Урок #|Lesson #
+u6|ta gap|предл.|sentences
+bk2|Orqaga|Назад|Back
+hc2|Murakkab|Сложные|Compound
+ht|Kuchli|Напряжённые|Tense
+hs|Boʻgʻin|Слог|Syllable
+hg0|Asosiy unlilar. ㅓ — ochiq «o», ㅗ — yopiq «o». ㅡ — lablarni choʻzib aytiladigan «ï» («ы» ga yaqin). ㅑ ㅕ ㅛ ㅠ — oldiga «y» qoʻshilgan unlilar.|Основные гласные. ㅓ — открытое «о», ㅗ — закрытое «о». ㅡ — «ы» без округления губ. ㅑ ㅕ ㅛ ㅠ — гласные с «й» впереди.|Basic vowels. ㅓ is an open “o”, ㅗ is a closed “o”. ㅡ is said with spread lips. ㅑ ㅕ ㅛ ㅠ add a “y” in front.
+hg1|Murakkab unlilar ikki unlidan tuziladi: ㅗ + ㅏ = ㅘ (wa). ㅐ va ㅔ hozirgi koreyschada deyarli bir xil oʻqiladi.|Сложные гласные состоят из двух: ㅗ + ㅏ = ㅘ (wa). ㅐ и ㅔ в современном корейском звучат почти одинаково.|Compound vowels combine two vowels: ㅗ + ㅏ = ㅘ (wa). ㅐ and ㅔ sound almost the same in modern Korean.
+hg2|Undoshlar. ㅋ ㅌ ㅍ ㅊ — nafasli: ovoz bilan birga havo chiqadi. ㅇ — boʻgʻin boshida ovozsiz, oxirida «ng». ㄹ — boshida «r», oxirida «l».|Согласные. ㅋ ㅌ ㅍ ㅊ — придыхательные: вместе со звуком выходит воздух. ㅇ — в начале слога не читается, в конце «нг». ㄹ — в начале «р», в конце «л».|Consonants. ㅋ ㅌ ㅍ ㅊ are aspirated: a puff of air comes out. ㅇ is silent at the start of a syllable and “ng” at the end. ㄹ is “r” at the start and “l” at the end.
+hg3|Kuchli undoshlar: ㄲ ㄸ ㅃ ㅆ ㅉ. Boʻgʻiz tarang, nafas deyarli chiqmaydi. Oddiy ㄱ ㄷ ㅂ ㅈ dan kuchliroq va qisqa aytiladi.|Напряжённые согласные: ㄲ ㄸ ㅃ ㅆ ㅉ. Горло напряжено, воздуха почти нет. Звучат резче и короче, чем ㄱ ㄷ ㅂ ㅈ.|Tense consonants: ㄲ ㄸ ㅃ ㅆ ㅉ. The throat is tight and little air comes out. Sharper and shorter than ㄱ ㄷ ㅂ ㅈ.
+hg4|Boʻgʻin = boshlangʻich undosh + unli (+ patchim, yaʼni oxirgi undosh). Masalan: ㅎ + ㅏ + ㄴ = 한. Qismlarni tanlang va ovozini eshiting.|Слог = начальный согласный + гласная (+ патчим, конечный согласный). Например: ㅎ + ㅏ + ㄴ = 한. Выбирайте части и слушайте.|A syllable = initial consonant + vowel (+ batchim, a final consonant). For example: ㅎ + ㅏ + ㄴ = 한. Pick the parts and listen.
+hpr|Mashq: harflarni topish|Тренировка: найди букву|Practice: find the letter
+bi|Boshlangʻich undosh|Начальный согласный|Initial consonant
+bv|Unli|Гласная|Vowel
+bf|Oxirgi undosh (patchim)|Конечный согласный (патчим)|Final consonant (batchim)
+bn|yoʻq|нет|none
+rk0|Yangi|Новичок|Newbie
+rk1|Oʻquvchi|Ученик|Student
+rk2|Faol|Активный|Active
+rk3|Tajribali|Опытный|Skilled
+rk4|Usta|Мастер|Master
+rk5|Ustoz|Наставник|Mentor
+wk|Haftalik faollik|Активность за неделю|Weekly activity
+ach|Yutuqlar|Достижения|Achievements
+bg1|Birinchi soʻz|Первое слово|First word
+bg2|3 kun ketma-ket|3 дня подряд|3-day streak
+bg3|50 ta soʻz|50 слов|50 words
+bg4|500 ball|500 баллов|500 points
+bg5|10 viktorina|10 викторин|10 quizzes
+bg6|Aniqlik 80%|Точность 80%|80% accuracy
+adm|Boshqaruv paneli|Панель управления|Control panel
+vd|Video dars|Видеоурок|Video lesson
+vo|Videoni ochish|Открыть видео|Open video
+vn|Video uchun internet kerak.|Для видео нужен интернет.|Video needs an internet connection.
+nm|Ismingiz|Ваше имя|Your name
+adh|Darslar, soʻzlar, video|Уроки, слова, видео|Lessons, words, video
+gdesc|Har kuni shuncha ball yigʻing — ketma-ket kunlar saqlanib boradi.|Набирайте столько баллов каждый день — серия дней сохраняется.|Earn this many points each day to keep your streak going.`;
+const D={uz:{},ru:{},en:{}};I.split("\n").forEach(l=>{const a=l.split("|");D.uz[a[0]]=a[1];D.ru[a[0]]=a[2];D.en[a[0]]=a[3]});
+const t=(k,v)=>(D[S.lang][k]||k).replace("#",v);
+const LI={uz:2,ru:3,en:4};
+const UD=`@ 🙋|Salomlashish|Приветствия|Greetings
+w 안녕하세요|annyonghaseyo|Salom|Здравствуйте|Hello;안녕히 가세요|annyonghi kaseyo|Xayr (ketayotganga)|До свидания|Goodbye;감사합니다|kamsahamnida|Rahmat|Спасибо|Thank you;죄송합니다|choesonghamnida|Kechirasiz|Извините|I'm sorry;네|ne|Ha|Да|Yes;아니요|aniyo|Yoʻq|Нет|No;저|cho|Men (hurmat bilan)|Я (вежливо)|I (polite);이름|irum|Ism|Имя|Name;처음 뵙겠습니다|choum poepkessumnida|Tanishganimdan xursandman|Приятно познакомиться|Nice to meet you;반갑습니다|pangapsumnida|Xursandman|Рад встрече|Glad to meet you
+s 저는 민수예요.|choneun minsuyeyo.|Men Minsuman.|Я Минсу.|I am Minsu.;만나서 반갑습니다.|mannaso pangapsumnida.|Tanishganimdan xursandman.|Рад познакомиться.|Nice to meet you.;이름이 뭐예요?|irumi mwoyeyo?|Ismingiz nima?|Как вас зовут?|What is your name?
+g ~는/은 — mavzu qoʻshimchasi: unli bilan tugasa 는, undosh bilan tugasa 은 (저는 = men).¶~예요/이에요 — «...man / ...dir»: unli bilan tugasa 예요, undosh bilan tugasa 이에요. 저는 민수예요 = Men Minsuman.|~는/은 — частица темы: после гласной 는, после согласной 은 (저는 = я).¶~예요/이에요 — «есть / являюсь»: после гласной 예요, после согласной 이에요. 저는 민수예요 = Я Минсу.|~는/은 — topic particle: 는 after a vowel, 은 after a consonant (저는 = as for me).¶~예요/이에요 — «am / is / are»: 예요 after a vowel, 이에요 after a consonant. 저는 민수예요 = I am Minsu.
+@ 🍚|Ovqat va ichimlik|Еда и напитки|Food and drinks
+w 물|mul|Suv|Вода|Water;밥|pap|Guruch, ovqat|Рис, еда|Rice, meal;빵|ppang|Non|Хлеб|Bread;고기|kogi|Goʻsht|Мясо|Meat;김치|kimchi|Kimchi|Кимчи|Kimchi;커피|kopi|Kofe|Кофе|Coffee;차|cha|Choy|Чай|Tea;우유|uyu|Sut|Молоко|Milk;과일|kwail|Meva|Фрукты|Fruit;맛있어요|masissoyo|Mazali|Вкусно|Delicious
+s 물 주세요.|mul chuseyo.|Suv bering.|Дайте воду, пожалуйста.|Water, please.;커피 한 잔 주세요.|kopi han chan chuseyo.|Bir piyola kofe bering.|Одну чашку кофе, пожалуйста.|One cup of coffee, please.;김치가 맛있어요.|kimchiga masissoyo.|Kimchi mazali.|Кимчи вкусное.|The kimchi is delicious.
+g ~주세요 — «bering, iltimos»: narsa nomi + 주세요 (물 주세요).¶~이/가 — ega qoʻshimchasi: unli bilan tugasa 가, undosh bilan tugasa 이 (김치가 맛있어요).|~주세요 — «дайте, пожалуйста»: предмет + 주세요 (물 주세요).¶~이/가 — частица подлежащего: после гласной 가, после согласной 이 (김치가 맛있어요).|~주세요 — «please give me»: item + 주세요 (물 주세요).¶~이/가 — subject particle: 가 after a vowel, 이 after a consonant (김치가 맛있어요).
+@ 🚌|Joylar va yoʻnalish|Места и направления|Places and directions
+w 학교|hakkyo|Maktab|Школа|School;집|chip|Uy|Дом|Home;화장실|hwajangsil|Hojatxona|Туалет|Restroom;버스|posu|Avtobus|Автобус|Bus;지하철|chihachol|Metro|Метро|Subway;역|yok|Bekat|Станция|Station;여기|yogi|Bu yerda|Здесь|Here;저기|chogi|Ana u yerda|Вон там|Over there;어디|odi|Qayerda|Где|Where;길|kil|Yoʻl|Дорога|Road
+s 화장실이 어디예요?|hwajangsili odiyeyo?|Hojatxona qayerda?|Где туалет?|Where is the restroom?;학교에 가요.|hakkyoe kayo.|Maktabga boraman.|Я иду в школу.|I go to school.;버스를 타요.|posureul tayo.|Avtobusga chiqaman.|Я сажусь на автобус.|I take the bus.
+g ~에 가요 — «...ga bormoq»: 학교에 가요 (maktabga boraman).¶~를/을 — toʻldiruvchi qoʻshimchasi: unli bilan tugasa 를, undosh bilan tugasa 을 (버스를 타요).|~에 가요 — «идти куда-то»: 학교에 가요 (иду в школу).¶~를/을 — частица дополнения: после гласной 를, после согласной 을 (버스를 타요).|~에 가요 — «go to a place»: 학교에 가요 (I go to school).¶~를/을 — object particle: 를 after a vowel, 을 after a consonant (버스를 타요).
+@ 🏭|Ish joyida|На работе|At work
+w 회사|hoesa|Kompaniya|Компания|Company;일|il|Ish|Работа|Work;월급|wolgup|Oylik maosh|Зарплата|Salary;공장|kongjang|Zavod|Завод|Factory;사장님|sajangnim|Rahbar, direktor|Директор|Boss;동료|tongnyo|Hamkasb|Коллега|Coworker;출근|chulgun|Ishga kelish|Приход на работу|Going to work;퇴근|toegun|Ishdan qaytish|Уход с работы|Leaving work;휴일|hyuil|Dam olish kuni|Выходной|Day off;시간|sigan|Vaqt|Время|Time
+s 저는 공장에서 일해요.|choneun kongjangeso ilhaeyo.|Men zavodda ishlayman.|Я работаю на заводе.|I work at a factory.;내일은 휴일이에요.|naeireun hyuirieyo.|Ertaga dam olish kuni.|Завтра выходной.|Tomorrow is a day off.;월급은 언제 받아요?|wolgubeun onje padayo?|Oylikni qachon olaman?|Когда я получу зарплату?|When do I get my salary?
+g ~에서 — harakat sodir boʻladigan joy: 공장에서 일해요 (zavodda ishlayman).¶~에 — borish yoki mavjud boʻlish joyi: 학교에 가요, 집에 있어요.|~에서 — место действия: 공장에서 일해요 (работаю на заводе).¶~에 — место назначения или нахождения: 학교에 가요, 집에 있어요.|~에서 — place where an action happens: 공장에서 일해요 (I work at a factory).¶~에 — destination or location: 학교에 가요, 집에 있어요.
+@ 🛒|Bozorda|На рынке|At the market
+w 시장|sijang|Bozor|Рынок|Market;가게|kage|Doʻkon|Магазин|Shop;얼마|olma|Qancha|Сколько|How much;비싸요|pissayo|Qimmat|Дорого|Expensive;싸요|ssayo|Arzon|Дёшево|Cheap;돈|ton|Pul|Деньги|Money;사다|sada|Sotib olmoq|Покупать|To buy;팔다|palda|Sotmoq|Продавать|To sell;깎아 주세요|kkakka chuseyo|Chegirma qiling|Сделайте скидку|Please give a discount;영수증|yongsujeung|Chek|Чек|Receipt
+s 이거 얼마예요?|igo olmayeyo?|Bu qancha turadi?|Сколько это стоит?|How much is this?;너무 비싸요. 좀 깎아 주세요.|nomu pissayo. chom kkakka chuseyo.|Juda qimmat. Biroz chegirma qiling.|Слишком дорого. Сделайте скидку.|Too expensive. Please give a discount.;이 옷을 사고 싶어요.|i oseul sago shipoyo.|Men bu kiyimni sotib olmoqchiman.|Я хочу купить эту одежду.|I want to buy this clothing.
+g Fe'l oʻzagi + 고 싶어요 — «...moqchiman»: 사다 → 사고 싶어요.¶좀 — «biroz»: iltimosni yumshatadi (좀 깎아 주세요).|Основа глагола + 고 싶어요 — «хочу...»: 사다 → 사고 싶어요.¶좀 — «немного»: смягчает просьбу (좀 깎아 주세요).|Verb stem + 고 싶어요 — «I want to...»: 사다 → 사고 싶어요.¶좀 — «a little»: softens a request (좀 깎아 주세요).
+@ 🏥|Kasalxonada|В больнице|At the hospital
+w 병원|pyongwon|Kasalxona|Больница|Hospital;의사|uisa|Shifokor|Врач|Doctor;약|yak|Dori|Лекарство|Medicine;약국|yakguk|Dorixona|Аптека|Pharmacy;아프다|apuda|Ogʻrimoq|Болеть|To hurt;머리|mori|Bosh|Голова|Head;배|pae|Qorin|Живот|Stomach;열|yol|Isitma|Температура|Fever;기침|kichim|Yoʻtal|Кашель|Cough;감기|kamgi|Shamollash|Простуда|Cold
+s 머리가 아파요.|moriga apayo.|Boshim ogʻriyapti.|У меня болит голова.|I have a headache.;감기에 걸렸어요.|kamgie kollyossoyo.|Shamollab qoldim.|Я простудился.|I caught a cold.;약을 먹어요.|yageul mogoyo.|Dori ichaman.|Я принимаю лекарство.|I take medicine.
+g Ogʻriq joyi + 이/가 + 아파요: 머리가 아파요 (boshim ogʻriyapti).¶Oʻtgan zamon: ~았/었어요: 걸리다 → 걸렸어요.|Больное место + 이/가 + 아파요: 머리가 아파요 (болит голова).¶Прошедшее время: ~았/었어요: 걸리다 → 걸렸어요.|Body part + 이/가 + 아파요: 머리가 아파요 (my head hurts).¶Past tense: ~았/었어요: 걸리다 → 걸렸어요.
+@ 🛂|Hujjatlar va viza|Документы и виза|Documents and visa
+w 비자|pija|Viza|Виза|Visa;여권|yogwon|Pasport|Паспорт|Passport;신청|sinchong|Ariza berish|Подача заявки|Application;서류|soryu|Hujjatlar|Документы|Documents;외국인등록증|oegugindeungnokchung|Chet ellik guvohnomasi|Карта иностранца|Alien registration card;연장|yonjang|Uzaytirish|Продление|Extension;만료|manryo|Muddati tugashi|Истечение срока|Expiration;출입국|churipkuk|Immigratsiya|Иммиграция|Immigration;확인|hwagin|Tasdiqlash|Проверка|Confirmation;제출|chechul|Topshirish|Подача|Submission
+s 비자를 연장하고 싶어요.||Vizamni uzaytirmoqchiman.|Я хочу продлить визу.|I want to extend my visa.;서류를 내일까지 제출해야 해요.||Hujjatlarni ertagacha topshirishim kerak.|Документы нужно подать до завтра.|I have to submit the documents by tomorrow.;외국인등록증은 어디에서 신청해요?||Chet ellik guvohnomasi uchun qayerda ariza beriladi?|Где подают заявку на карту иностранца?|Where do I apply for the alien registration card?
+g Fe'l + 아/어야 해요 — «...ishim kerak»: 제출하다 → 제출해야 해요.¶~까지 — «...gacha»: 내일까지 (ertagacha).|Глагол + 아/어야 해요 — «нужно...»: 제출하다 → 제출해야 해요.¶~까지 — «до»: 내일까지 (до завтра).|Verb + 아/어야 해요 — «must / have to»: 제출하다 → 제출해야 해요.¶~까지 — «until / by»: 내일까지 (by tomorrow).
+@ 📄|Ish va shartnoma|Работа и договор|Jobs and contracts
+w 계약|kyeyak|Shartnoma|Договор|Contract;근로계약서|kullogyeyakso|Mehnat shartnomasi|Трудовой договор|Employment contract;취업|chwieop|Ishga joylashish|Трудоустройство|Employment;면접|myonjop|Suhbat|Собеседование|Interview;경력|kyongnyok|Ish tajribasi|Опыт работы|Work experience;급여|kubyo|Maosh|Оплата труда|Pay;근무시간|kunmusigan|Ish vaqti|Рабочее время|Working hours;야근|yakun|Ortiqcha ish|Сверхурочная работа|Overtime;보험|pohom|Sugʻurta|Страховка|Insurance;퇴사|toesa|Ishdan ketish|Увольнение|Resignation
+s 면접은 다음 주 월요일이에요.||Suhbat kelasi hafta dushanba kuni.|Собеседование в следующий понедельник.|The interview is next Monday.;계약서를 꼼꼼히 읽어야 해요.||Shartnomani diqqat bilan oʻqish kerak.|Договор нужно внимательно прочитать.|You must read the contract carefully.;오늘 면접을 볼 수 있어요?||Bugun suhbatdan oʻtsam boʻladimi?|Могу ли я пройти собеседование сегодня?|Can I have the interview today?
+g Fe'l + (으)ㄹ 수 있어요 — «...a olaman / mumkin»: 볼 수 있어요.¶Inkor: (으)ㄹ 수 없어요 — «...a olmayman / mumkin emas».|Глагол + (으)ㄹ 수 있어요 — «могу / можно»: 볼 수 있어요.¶Отрицание: (으)ㄹ 수 없어요 — «не могу / нельзя».|Verb + (으)ㄹ 수 있어요 — «can / it is possible»: 볼 수 있어요.¶Negative: (으)ㄹ 수 없어요 — «cannot».
+@ 🏠|Uy-joy|Жильё|Housing
+w 아파트|apatu|Kvartira|Квартира|Apartment;월세|wolse|Oylik ijara|Месячная аренда|Monthly rent;보증금|pojunggum|Garov puli|Залог|Deposit;방|pang|Xona|Комната|Room;이사|isa|Koʻchish|Переезд|Moving;이웃|iut|Qoʻshni|Сосед|Neighbor;관리비|kwallibi|Kommunal toʻlov|Коммунальные платежи|Maintenance fee;주소|choso|Manzil|Адрес|Address;전화번호|chonhwabonho|Telefon raqami|Номер телефона|Phone number;열쇠|yolsoe|Kalit|Ключ|Key
+s 월세가 얼마예요?||Oylik ijara qancha?|Сколько стоит аренда в месяц?|How much is the monthly rent?;다음 달에 이사할 거예요.||Kelasi oy koʻchib oʻtaman.|Я перееду в следующем месяце.|I will move next month.;주소를 알려 주시겠어요?||Manzilni aytib bera olasizmi?|Не могли бы вы сказать адрес?|Could you tell me the address?
+g Fe'l + (으)ㄹ 거예요 — kelasi zamon, reja: 이사할 거예요 (koʻchib oʻtaman).¶~아/어 주시겠어요? — «...ib bera olasizmi?» (xushmuomala iltimos).|Глагол + (으)ㄹ 거예요 — будущее, планы: 이사할 거예요 (перееду).¶~아/어 주시겠어요? — «не могли бы вы...?» (вежливая просьба).|Verb + (으)ㄹ 거예요 — future, plans: 이사할 거예요 (I will move).¶~아/어 주시겠어요? — «could you please...?» (polite request).
+@ 📈|Iqtisodiyot|Экономика|Economy
+w 환율|hwanyul|Valyuta kursi|Валютный курс|Exchange rate;경제|kyongje|Iqtisodiyot|Экономика|Economy;물가|mulga|Narx-navo|Цены|Prices;금리|kumni|Foiz stavkasi|Процентная ставка|Interest rate;투자|tuja|Investitsiya|Инвестиции|Investment;수출|suchul|Eksport|Экспорт|Export;수입|suip|Import|Импорт|Import;소비|sobi|Isteʼmol|Потребление|Consumption;성장|songjang|Oʻsish|Рост|Growth;위기|wigi|Inqiroz|Кризис|Crisis
+s 최근 물가가 많이 올랐어요.||Soʻnggi paytlarda narxlar ancha oshdi.|В последнее время цены сильно выросли.|Prices have risen a lot recently.;환율이 오르면 수입 가격도 올라요.||Valyuta kursi oshsa, import narxlari ham oshadi.|Если курс растёт, цены на импорт тоже растут.|If the exchange rate rises, import prices rise too.;정부는 금리를 낮추기로 했어요.||Hukumat foiz stavkasini pasaytirishga qaror qildi.|Правительство решило снизить процентную ставку.|The government decided to lower the interest rate.
+g ~(으)면 — «agar ...sa»: 오르면 (oʻssa).¶Fe'l + 기로 했어요 — «...ishga qaror qildi / kelishdi».|~(으)면 — «если»: 오르면 (если вырастет).¶Глагол + 기로 했어요 — «решил(и)...».|~(으)면 — «if»: 오르면 (if it rises).¶Verb + 기로 했어요 — «decided to...».
+@ 🌏|Jamiyat|Общество|Society
+w 사회|sahoe|Jamiyat|Общество|Society;문화|munhwa|Madaniyat|Культура|Culture;교육|kyoyuk|Taʼlim|Образование|Education;환경|hwangyong|Atrof-muhit|Окружающая среда|Environment;문제|munje|Muammo|Проблема|Problem;정부|chongbu|Hukumat|Правительство|Government;인구|ingu|Aholi|Население|Population;노인|noin|Keksalar|Пожилые люди|Elderly;차별|chabyol|Kamsitish|Дискриминация|Discrimination;변화|pyonhwa|Oʻzgarish|Изменение|Change
+s 한국은 노인 인구가 점점 늘고 있어요.||Koreyada keksalar aholisi tobora koʻpayib bormoqda.|В Корее пожилое население постепенно растёт.|Korea's elderly population is steadily increasing.;환경 문제는 우리 모두의 책임이에요.||Atrof-muhit muammosi barchamizning masʼuliyatimiz.|Экологическая проблема — ответственность всех нас.|Environmental problems are everyone's responsibility.;교육이 사회 변화에 큰 영향을 줘요.||Taʼlim jamiyat oʻzgarishiga katta taʼsir koʻrsatadi.|Образование сильно влияет на изменения в обществе.|Education has a big influence on social change.
+g Fe'l + 고 있어요 — davom etayotgan harakat «...moqda»: 늘고 있어요 (koʻpayib bormoqda).¶점점 — «tobora, asta-sekin».|Глагол + 고 있어요 — действие в процессе «...ется»: 늘고 있어요 (растёт).¶점점 — «постепенно».|Verb + 고 있어요 — ongoing action «is ...ing»: 늘고 있어요 (is increasing).¶점점 — «gradually».
+@ 💬|Fikr bildirish|Выражение мнения|Expressing opinions
+w 의견|uigyon|Fikr|Мнение|Opinion;동의|tongui|Rozilik|Согласие|Agreement;반대|pandae|Qarshilik|Возражение|Opposition;이유|iyu|Sabab|Причина|Reason;결정|kyoljong|Qaror|Решение|Decision;제안|chean|Taklif|Предложение|Proposal;장점|changjom|Ustunlik|Преимущество|Advantage;단점|tanjom|Kamchilik|Недостаток|Disadvantage;협력|hyomnyok|Hamkorlik|Сотрудничество|Cooperation;책임|chaegim|Masʼuliyat|Ответственность|Responsibility
+s 제 의견으로는 이 계획이 좋아요.||Mening fikrimcha bu reja yaxshi.|По моему мнению, этот план хороший.|In my opinion, this plan is good.;그 제안에는 동의하지 않아요.||Men bu taklifga rozi emasman.|Я не согласен с этим предложением.|I don't agree with that proposal.;장점도 있고 단점도 있어요.||Ham ustunligi, ham kamchiligi bor.|Есть и плюсы, и минусы.|It has both advantages and disadvantages.
+g Fe'l + 지 않아요 — inkor «...maydi»: 동의하지 않아요 (rozi emasman).¶~도 ~도 — «ham ... ham ...»: 장점도 있고 단점도 있어요.|Глагол + 지 않아요 — отрицание «не...»: 동의하지 않아요 (не согласен).¶~도 ~도 — «и ... и ...»: 장점도 있고 단점도 있어요.|Verb + 지 않아요 — negation «don't...»: 동의하지 않아요 (I don't agree).¶~도 ~도 — «both ... and ...»: 장점도 있고 단점도 있어요.
+@ 👪|Oila va odamlar
+l 1
+w 엄마|omma|Ona;아빠|appa|Ota;형|hyong|Aka (oʻgʻil bola aytadi);누나|nuna|Opa (oʻgʻil bola aytadi);동생|tongsaeng|Ini yoki singil;가족|kajok|Oila;친구|chingu|Doʻst;선생님|sonsaengnim|Oʻqituvchi;학생|haksaeng|Talaba;사람|saram|Odam
+s 우리 가족은 네 명이에요.|uri kajogun ne myongieyo.|Bizning oilamiz toʻrt kishi.;제 친구는 학생이에요.|che chinguneun haksaengieyo.|Doʻstim talaba.;아빠는 회사에 가요.|appaneun hoesae kayo.|Dadam ishga boradi.
+g 제 — «mening» (hurmat shakli), 우리 — «bizning»: 제 친구 (mening doʻstim), 우리 가족 (bizning oilamiz).¶~은/는 — mavzu: 아빠는 회사에 가요 (dadam ishga boradi).¶명 — kishi sanagichi: 네 명 (toʻrt kishi).
+@ 🔢|Sonlar va vaqt
+l 1
+w 하나|hana|Bir;둘|tul|Ikki;셋|set|Uch;넷|net|Toʻrt;다섯|tasot|Besh;시간|sigan|Vaqt, soat;오늘|onul|Bugun;내일|naeil|Ertaga;어제|ojje|Kecha;지금|chigum|Hozir
+s 지금 몇 시예요?|chigum myot siyeyo?|Hozir soat nechchi?;오늘은 월요일이에요.|onurun woryoirieyo.|Bugun dushanba.;내일 만나요.|naeil mannayo.|Ertaga uchrashamiz.
+g 몇 시예요? — «soat nechchi?». Soat uchun sof koreys sonlari: 한 시 (1), 두 시 (2), 세 시 (3), 네 시 (4).¶~에 — vaqt: 세 시에 만나요 (soat uchda uchrashamiz). 오늘, 내일, 어제 ga odatda ~에 qoʻshilmaydi.
+@ ⏰|Kundalik tartib
+l 2
+w 아침|achim|Ertalab;점심|chomsim|Tush, tushlik;저녁|chonyok|Kech, kechki ovqat;일어나다|ironada|Turmoq, uygʻonmoq;자다|chada|Uxlamoq;먹다|mokta|Yemoq;마시다|masida|Ichmoq;공부하다|kongbuhada|Oʻqimoq;쉬다|swida|Dam olmoq;출근하다|chulgunhada|Ishga chiqmoq
+s 저는 아침 일곱 시에 일어나요.|chonun achim ilgop sie ironayo.|Men ertalab soat yettida turaman.;어제 저녁에 친구를 만났어요.|ojje chonoge chingurul mannassoyo.|Kecha kechqurun doʻstim bilan uchrashdim.;점심을 먹고 쉬었어요.|chomsimul mokko swiossoyo.|Tushlik qilib, dam oldim.
+g ~아요/어요 — hozirgi zamon: 먹다 → 먹어요, 마시다 → 마셔요, 일어나다 → 일어나요.¶~았어요/었어요 — oʻtgan zamon: 먹었어요, 마셨어요, 일어났어요.¶~고 — «...ib, keyin»: 먹고 쉬어요 (yeb, dam olaman).
+@ 💭|Xohish va rejalar
+l 2
+w 한국|hanguk|Koreya;한국어|hangugo|Koreys tili;여행|yohaeng|Sayohat;취미|chwimi|Sevimli mashgʻulot;주말|chumal|Dam olish kunlari;영화|yonghwa|Kino;음악|umak|Musiqa;운동|undong|Sport;계획|kyehoek|Reja;배우다|paeuda|Oʻrganmoq
+s 한국에 가고 싶어요.|hanguge kago sipoyo.|Koreyaga bormoqchiman.;주말에 영화를 볼 거예요.|chumare yonghwarul pol koyeyo.|Dam olish kunlari kino koʻraman.;한국어를 배우고 있어요.|hangugorul paeugo issoyo.|Koreys tilini oʻrganyapman.
+g ~고 싶어요 — xohlayman: 가고 싶어요 (borgim keladi).¶~(으)ㄹ 거예요 — reja, kelasi zamon: 볼 거예요 (koʻraman), 먹을 거예요 (yeyman).¶~고 있어요 — hozir davom etayotgan harakat: 배우고 있어요 (oʻrganyapman).
+@ 💼|Ish joyidagi suhbat
+l 3
+w 회의|hoeui|Yigʻilish;보고서|pogoso|Hisobot;동료|tongnyo|Hamkasb;상사|sangsa|Boshliq;출장|chuljang|Xizmat safari;야근|yagun|Kechki smena;휴가|hyuga|Taʼtil;지각|chigak|Kechikish;부탁|putak|Iltimos, soʻrov;도움|toum|Yordam
+s 보고서를 오늘까지 제출해야 해요.||Hisobotni bugungacha topshirishim kerak.;상사께 휴가를 신청했어요.||Boshligʻimdan taʼtil soʻradim.;죄송하지만 부탁이 하나 있는데요.||Kechirasiz, bir iltimosim bor edi.
+g ~아/어야 해요 — «...ish kerak»: 제출해야 해요 (topshirishim kerak).¶~께 — hurmat shakli, «...ga»: 상사께 (boshligʻimga).¶~는데요 — gapni yumshoq tugatish: 부탁이 하나 있는데요 (bir iltimosim bor edi).
+@ 🔗|Sabab va natija
+l 3
+w 이유|iyu|Sabab;결과|kyolgwa|Natija;원인|wonin|Sabab, omil;때문|ttaemun|Sababli;그래서|kuraeso|Shuning uchun;하지만|hajiman|Lekin;그리고|kurigo|Va, keyin;만약|manyak|Agar;예를 들어|yerul turo|Masalan;결국|kyolguk|Oxir-oqibat
+s 비가 와서 약속을 취소했어요.||Yomgʻir yogʻgani uchun uchrashuvni bekor qildim.;바쁘기 때문에 갈 수 없어요.||Bandligim sababli bora olmayman.;열심히 공부했지만 시험에 떨어졌어요.||Qattiq oʻqidim, lekin imtihondan oʻtmadim.
+g ~아서/어서 — sabab: 비가 와서 (yomgʻir yogʻgani uchun). Bu shakldan keyin ~(으)세요 va ~ㅂ시다 ishlatilmaydi.¶~기 때문에 — sabab (rasmiyroq): 바쁘기 때문에 (band boʻlgani uchun).¶~지만 — «...lekin»: 공부했지만 (oʻqidim, lekin).
+@ 📨|Rasmiy yozishma
+l 4
+w 제출|chechul|Topshirish;승인|sungin|Tasdiqlash;담당자|tamdangja|Masʼul shaxs;일정|iljong|Jadval;확인|hwagin|Tekshirish;문의|munui|Soʻrov, savol;변경|pyongyong|Oʻzgartirish;처리|chori|Ishlov berish;안내|annae|Xabar, yoʻriqnoma;첨부|chomppu|Ilova (fayl)
+s 일정이 변경되어 안내드립니다.||Jadval oʻzgargani haqida xabar beraman.;담당자께 문의해 주시기 바랍니다.||Iltimos, masʼul shaxsga murojaat qiling.;첨부 파일을 확인해 주세요.||Iltimos, ilova qilingan faylni tekshiring.
+g ~드립니다 — «sizga ...ib beraman» (kamtar rasmiy shakl): 안내드립니다.¶~아/어 주시기 바랍니다 — «iltimos, ...ing» (rasmiy): 확인해 주시기 바랍니다.¶~되다 — majhul nisbat: 변경되다 (oʻzgartirilmoq), 처리되다 (ishlov berilmoq).
+@ 🌍|Texnologiya va atrof-muhit
+l 4
+w 기술|kisul|Texnologiya;환경|hwangyong|Atrof-muhit;에너지|enoji|Energiya;발전|paljon|Rivojlanish;오염|oyom|Ifloslanish;개선|kaeson|Yaxshilash;방안|pangan|Chora, yechim;필요성|pilyoson|Zarurat;실천|silchon|Amalga oshirish;지속|chisok|Davomiylik
+s 기술 발전은 우리 생활을 크게 바꾸고 있어요.||Texnologiya rivoji hayotimizni katta oʻzgartirmoqda.;환경 오염을 줄이기 위한 방안이 필요해요.||Atrof-muhit ifloslanishini kamaytirish uchun chora kerak.;말로만 하지 말고 실천해야 해요.||Faqat gapirmasdan, amalga oshirish kerak.
+g ~기 위해(서) / ~기 위한 — «...ish uchun»: 줄이기 위한 방안 (kamaytirish uchun chora).¶~고 있다 — davom etayotgan jarayon: 바꾸고 있어요 (oʻzgartirmoqda).¶~(으)ㄹ수록 — «qancha ...sa, shuncha»: 기술이 발전할수록 생활이 편리해져요 (texnologiya rivojlangan sari hayot qulaylashadi).`;
+const UN=[];
+UD.split("\n").forEach(l=>{const c=l[0],d=l.slice(2);
+if(c==="@"){const a=d.split("|");UN.push({e:a[0],n:a.slice(1),w:[],s:[],g:[]})}
+else{const u=UN[UN.length-1];if(c==="w")u.w=d.split(";").map(x=>x.split("|"));else if(c==="s")u.s=d.split(";").map(x=>x.split("|"));else if(c==="l")u.l=+d;else u.g=d.split("|")}});
+UN.forEach((u,i)=>{if(!u.l)u.l=Math.floor(i/3)+1});
+const CK="koreys_content",PK="koreys_pin";
+const esc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function loadContent(j){try{const a=typeof j==="string"?JSON.parse(j):j;if(!Array.isArray(a)||!a.length)return false;
+const n=a.map(u=>({e:u.e||"📘",n:u.n||["?"],w:u.w||[],s:u.s||[],g:u.g||[""],l:+u.l||1,v:u.v||""}));UN.length=0;n.forEach(u=>UN.push(u));return true}catch(e){return false}}
+const saveContent=()=>{try{localStorage.setItem(CK,JSON.stringify(UN))}catch(e){}};
+let LOCAL=false;try{const lc=localStorage.getItem(CK);if(lc)LOCAL=loadContent(lc)}catch(e){}
+const words=()=>UN.filter(u=>u.l===S.lvl).flatMap(u=>u.w),mean=w=>w[LI[S.lang]]||w[2],ui=a=>a[LI[S.lang]-2]||a[0];
+let scr="home";
+const MAP={home:0,ul:0,uh:0,sn:0,gm:0,rx:0,vd:0,cd:1,qz:2,qr:2,hg:3,pf:4,ps:4,ad:4,ae:4};
+const ic=p=>`<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const IC={star:ic('<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>'),flame:ic('<path d="M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2.5-4.5C9.5 10 11 8 12 3z"/>'),book:ic('<path d="M4 19.5V5a2 2 0 0 1 2-2h14v15H6a2 2 0 0 0-2 2zm0 0A2 2 0 0 0 6 21h14"/>'),target:ic('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>'),check:ic('<rect x="5" y="4" width="14" height="17" rx="3"/><path d="m9 13 2.2 2.2L15.5 11M9.5 4V3h5v1"/>')};
+const NI=[ic('<path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>'),IC.book,IC.target,"<b>한</b>",ic('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>')];
+NI.forEach((h,i)=>{const b=document.createElement("button");b.innerHTML=h;b.onclick=()=>tab(i);$("nv").appendChild(b)});
+const stat=(c,l,v,u,i)=>`<div class="sc ${c}"><div><div class="lb">${t(l)}</div><div class="nm">${v} <small>${t(u)}</small></div></div><div class="ti">${IC[i]}</div></div>`;
+const ST=[];
+function go(id,np){if(!np&&scr&&scr!==id){if(id==="home"||id==="ob1")ST.length=0;else{let h=false;try{history.pushState({},"");h=true}catch(e){}ST.push({id:scr,h})}}
+scr=id;document.querySelectorAll("section").forEach(x=>x.classList.add("hide"));$(id).classList.remove("hide");scrollTo(0,0);
+const top=!ST.length;$("hd").classList.toggle("tall",id==="home");$("lgc").classList.toggle("hide",!top);$("bkb").classList.toggle("hide",top);
+$("nv").classList.toggle("hide",!(id in MAP));
+[...$("nv").children].forEach((b,i)=>b.classList.toggle("on",i===MAP[id]));
+document.querySelectorAll(".di").forEach((b,i)=>b.classList.toggle("on",i===MAP[id]));
+try{top?tg.BackButton.hide():tg.BackButton.show()}catch(e){}}
+function popScreen(){const p=ST.pop();if(p)go(p.id,true)}
+function back(){if(!ST.length)return home();const t=ST[ST.length-1];if(t.h)history.back();else popScreen()}
+addEventListener("popstate",popScreen);
+try{tg.BackButton.onClick(back)}catch(e){}
+function tab(i){if(!S.lvl)return home();[home,startReview,startQuiz,openHg,openPf][i]()}
+function toggleMenu(e){if(e)e.stopPropagation();$("dr").classList.toggle("hide")}
+function applyLang(){$("lgc").textContent=S.lang.toUpperCase();document.documentElement.lang=S.lang;document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t(e.dataset.i));
+document.querySelectorAll("[data-l]").forEach(b=>b.classList.toggle("on",b.dataset.l==S.lang));$("sc").placeholder=t("ph",T==1?200:300)}
+function setLang(l){S.lang=l;save();$("dr").classList.add("hide");$("lm").classList.add("hide");applyLang();({home,cd:showCard,qz:showQ,hg:renderHg,pf:openPf,ob3:showRes,ul:openUnits,uh:()=>openUnit(cu),sn:openSent,gm:openGram,vd:()=>openVideo(cu),ps:()=>pfSub(PSK)}[scr]||(()=>{}))()}
+document.addEventListener("click",e=>{{if(!e.target.closest("#dr"))$("dr").classList.add("hide");if(!e.target.closest("#lm,#lgc"))$("lm").classList.add("hide")}});
+function addXP(n){const d=day(0);S.hist=S.hist||{};S.hist[d]=(S.hist[d]||0)+n;if(S.day!==d){S.day=d;S.today=0}
+if(S.last!==d){S.streak=S.last===day(1)?S.streak+1:1;S.last=d}
+S.xp+=n;S.today+=n;save()}
+function home(){if(!S.lvl)return go("ob1");
+$("hl").textContent=t("lf",S.lvl)+" · "+t("l"+S.lvl);
+$("hc").innerHTML="<span>🔥 "+stk()+"</span><span>⭐ "+S.xp+"</span>";
+const L=lvU(),nx=L.find(x=>known(x[0])<x[0].w.length);
+$("lp").innerHTML=L.map(([u,i],k)=>{const kn=known(u),dn=kn>=u.w.length;
+return `<button class="ls ${k%2?"r":"l"}${nx&&nx[1]===i?" now":""}" onclick="openUnit(${i})"><span class="ld">${dn?"✓":u.e}</span><span><b>${t("ds",k+1)}</b><small>${ui(u.n)} · ${"★".repeat(u.l)}</small></span><i class="lb2" style="width:${kn/u.w.length*100}%"></i></button>`}).join("");
+go("home")}
+function setLevel(l){S.lvl=l;save();home()}
+let T=1,NL=1,R=null;
+function pickT(x){T=x;document.querySelectorAll(".tp").forEach((b,i)=>b.classList.toggle("on",i==x-1));$("sbox").classList.remove("hide");$("sc").placeholder=t("ph",x==1?200:300);$("er").textContent=""}
+const T1=[[170,2,4,2],[140,2,3,2],[130,1,2,2],[80,1,1,2],[0,0,0,1]];
+const T2=[[230,6,5,4],[190,5,4,4],[170,4,3,3],[150,4,1,3],[135,3,2,3],[120,3,1,3],[0,0,0,2]];
+function place(){const v=$("sc").value,n=+v,m=T==1?200:300;
+if(v===""||!Number.isInteger(n)||n<0||n>m){$("er").textContent=t("err",m);return}
+R={n,m,r:(T==1?T1:T2).find(x=>n>=x[0])};NL=R.r[3];showRes();}
+function showRes(){if(!R)return;const r=R.r;
+$("r1").textContent=r[1]?t("gr",r[1]):t("ng");$("r2").textContent=t("e"+r[2])+" ("+R.n+" / "+R.m+")";
+$("r3").textContent=t("lf",NL)+" · "+t("l"+NL);go("ob3")}
+let REV=false,deck=[],ci=0,cur=[];
+function startCards(u){REV=false;if(typeof u==="number")cu=u;deck=shuf(UN[cu].w).sort((a,b)=>S.known.includes(a[0])-S.known.includes(b[0]));ci=0;showCard();go("cd")}
+function startReview(){if(!S.lvl)return home();REV=true;deck=shuf(words()).sort((a,b)=>S.known.includes(a[0])-S.known.includes(b[0]));ci=0;showCard();go("cd")}
+function showCard(){if(!deck.length)return startCards();cur=deck[ci];$("fl").classList.remove("on");
+$("cf").textContent=cur[0];$("cb").textContent=mean(cur);$("cp").textContent=cur[1];
+$("cn").textContent=(ci+1)+" / "+deck.length;$("cb2").style.width=(ci+1)/deck.length*100+"%"}
+function nextCard(k){if(k){if(!S.known.includes(cur[0]))S.known.push(cur[0]);addXP(2);hap("success")}
+if(ci+1>=deck.length)return REV?home():openUnit(cu);ci++;showCard()}
+let Q=[],qi=0,qs=0;
+let QPL=null;
+function startQuiz(u){QPL=Array.isArray(u)?u:null;qu=QPL?-2:(typeof u==="number"?u:-1);const p=QPL||(qu>=0?UN[qu].w:words()),lv=(S.lvl||2)-1,n=QPL?Math.min(8,p.length):[6,8,10,10][lv],rv=[.3,.5,.6,.7][lv];
+Q=shuf(p).slice(0,n).map(w=>({w,r:Math.random()<rv,o:shuf([w,...shuf(p.filter(x=>x!==w)).slice(0,3)])}));qi=0;qs=0;showQ();go("qz")}
+function showQ(){if(!Q.length)return startQuiz();const q=Q[qi];$("qn").textContent=(qi+1)+" / "+Q.length;$("qb").style.width=qi/Q.length*100+"%";
+$("qq").textContent=q.r?mean(q.w):q.w[0];$("qo").innerHTML="";const txt=x=>q.r?x[0]:mean(x);
+q.o.forEach((x,i)=>{const b=document.createElement("button");b.className="opt";b.dataset.v=txt(x);b.innerHTML='<span class="lt">'+"ABCD"[i]+"</span>";const sp=document.createElement("span");sp.textContent=txt(x);b.appendChild(sp);
+b.onclick=()=>{const good=x===q.w;[...$("qo").children].forEach(e=>e.disabled=true);
+b.classList.add(good?"ok":"no");if(good)qs++;hap(good?"success":"error");
+if(!good)[...$("qo").children].forEach(e=>{if(e.dataset.v===txt(q.w))e.classList.add("ok")});
+setTimeout(()=>{qi++;qi>=Q.length?endQ():showQ()},1000)};$("qo").appendChild(b)})}
+function endQ(){addXP(qs*10);S.qz++;S.qc+=qs;S.qt+=Q.length;save();$("qs").textContent=qs+" / "+Q.length;$("qx").textContent=t("gain",qs*10);$("qe").textContent=qs>=7?"🏆":qs>=4?"👍":"💪";go("qr")}
+const HD=["ㅏ|아|a|아기|agi|👶;ㅑ|야|ya|야구|yagu|⚾;ㅓ|어|o (ochiq)|어머니|omoni|👩;ㅕ|여|yo (ochiq)|여자|yoja|💁;ㅗ|오|o (yopiq)|오리|ori|🦆;ㅛ|요|yo (yopiq)|요리|yori|🍳;ㅜ|우|u|우유|uyu|🥛;ㅠ|유|yu|휴지|hyuji|🧻;ㅡ|으|ï|음식|umsik|🍲;ㅣ|이|i|이름|irum|🏷️",
+"ㅐ|애|e (ae)|개|kae|🐶;ㅒ|얘|ye (yae)|얘기|yegi|💬;ㅔ|에|e|게|ke|🦀;ㅖ|예|ye|시계|sigye|⏰;ㅘ|와|wa|사과|sagwa|🍎;ㅙ|왜|we (wae)|왜|wae|❓;ㅚ|외|we (oe)|회사|hoesa|🏢;ㅝ|워|wo|원|won|💴;ㅞ|웨|we|웨이터|weito|🍽️;ㅟ|위|wi|귀|kwi|👂;ㅢ|의|ui|의사|uisa|🩺",
+"ㄱ|가|g / k|가방|kabang|🎒;ㄴ|나|n|나무|namu|🌳;ㄷ|다|d / t|다리|tari|🌉;ㄹ|라|r / l|라면|ramyon|🍜;ㅁ|마|m|마음|maum|❤️;ㅂ|바|b / p|바다|pada|🌊;ㅅ|사|s|사과|sagwa|🍎;ㅇ|아|— / ng|고양이|koyangi|🐱;ㅈ|자|j|자동차|chadongcha|🚗;ㅊ|차|ch (nafasli)|치마|chima|👗;ㅋ|카|k (nafasli)|코|ko|👃;ㅌ|타|t (nafasli)|토끼|tokki|🐰;ㅍ|파|p (nafasli)|포도|podo|🍇;ㅎ|하|h|하늘|hanul|☁️",
+"ㄲ|까|kk|까치|kkachi|🐦;ㄸ|따|tt|딸기|ttalgi|🍓;ㅃ|빠|pp|빵|ppang|🍞;ㅆ|싸|ss|쌀|ssal|🍚;ㅉ|짜|jj|짜장면|jjajangmyon|🍝"];
+const BI="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ",BV="ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ",BF=[["",0,""],["ㄱ",1,"k"],["ㄴ",4,"n"],["ㄷ",7,"t"],["ㄹ",8,"l"],["ㅁ",16,"m"],["ㅂ",17,"p"],["ㅅ",19,"t"],["ㅇ",21,"ng"]];
+const RI="g,kk,n,d,tt,r,m,b,pp,s,ss,,j,jj,ch,k,t,p,h".split(","),RV="a,ae,ya,yae,o,e,yo,ye,o,wa,wae,oe,yo,u,wo,we,wi,yu,ï,ui,i".split(",");
+const HG=HD.map(x=>x.split(";").map(y=>y.split("|")));
+let G=0,HC=HG[0][0],bi=18,bv=0,bf=0;
+const syl=()=>String.fromCharCode(0xAC00+(bi*21+bv)*28+BF[bf][1]);
+function openHg(){renderHg();go("hg")}
+function setG(g){G=g;if(g<4)HC=HG[g][0];renderHg()}
+function pickH(k){HC=HG[G][k];renderHg();speak(HC[1])}
+function sayH(k){speak(HC[k])}
+function hgQuiz(){startQuiz(HG[G].map(x=>[x[0],x[1],x[1]+" · "+x[2]]))}
+function renderHg(){
+$("hgt").innerHTML=["vow","hc2","con","ht","hs"].map((k,i)=>`<button class="pl${i==G?" on":""}" onclick="setG(${i})">${t(k)}</button>`).join("");
+if(G<4){$("hgb").innerHTML=`<div class="card det"><div class="big">${HC[0]}</div><div class="ex"><span>${HC[1]} · ${HC[2]}</span><button class="ic s" onclick="sayH(1)">${SP}</button></div><div class="ex"><span>${HC[5]} ${HC[3]} · ${HC[4]}</span><button class="ic s" onclick="sayH(3)">${SP}</button></div></div>
+<div class="grid">${HG[G].map((x,k)=>`<button class="cell${x===HC?" on":""}" onclick="pickH(${k})">${x[0]}</button>`).join("")}</div>
+<div class="card" style="margin-top:14px"><div class="gt">${t("hg"+G)}</div></div><button class="btn alt" onclick="hgQuiz()">🎯 ${t("hpr")}</button>`}
+else{const sy=syl();$("hgb").innerHTML=`<div class="card det"><div class="big">${sy}</div><div class="ex"><span>${RI[bi]+RV[bv]+BF[bf][2]||"—"}</span><button class="ic s" onclick="speak('${sy}')">${SP}</button></div></div>
+<div class="card"><h3>${t("bi")}</h3><div class="chipg">${[...BI].map((c,k)=>`<button class="cell s${k==bi?" on":""}" onclick="bi=${k};renderHg()">${c}</button>`).join("")}</div>
+<h3>${t("bv")}</h3><div class="chipg">${[...BV].map((c,k)=>`<button class="cell s${k==bv?" on":""}" onclick="bv=${k};renderHg()">${c}</button>`).join("")}</div>
+<h3>${t("bf")}</h3><div class="chipg">${BF.map((c,k)=>`<button class="cell s${k==bf?" on":""}" onclick="bf=${k};renderHg()">${c[0]||t("bn")}</button>`).join("")}</div></div>
+<div class="card"><div class="gt">${t("hg4")}</div></div>`}}
+const RK=[0,100,300,700,1500,3000];
+const mini=(i,v,l)=>`<div class="mini"><div class="ti">${IC[i]}</div><b>${v}</b><span>${t(l)}</span></div>`;
+const PERSON=ic('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>').replace('width="26" height="26"','width="52" height="52"');
+function pfName(){return S.name||(U?U.first_name:t("fr"))}
+function editName(){const v=prompt(t("nm"),S.name||"");if(v!==null){S.name=v.trim().slice(0,30);save();openPf()}}
+function openPf(){const n=pfName(),r=RK.filter(x=>S.xp>=x).length-1,nx=RK[r+1],pc=nx?Math.round((S.xp-RK[r])/(nx-RK[r])*100):100;
+$("pfb").innerHTML=`<div class="xpn"><div class="xav" id="av">${PERSON}</div><div class="xnm" onclick="editName()">${esc(n)} <i>✎</i></div><div class="xus">${U&&U.username?"@"+esc(U.username):""}</div>
+<div class="xbd"><span class="bd">${t("lf",S.lvl)} · ${t("l"+S.lvl)}</span><span class="bd rk">${t("rk"+r)}</span></div>
+<div class="bar rbar"><i style="width:${pc}%"></i></div><div class="sm2">${S.xp}${nx?" / "+nx:""} ${t("u1")}</div></div>
+<div class="xrow"><button class="xg xn" onclick="pfSub('lang')"><b>🌐</b><span>${S.lang.toUpperCase()}</span></button><button class="xg xw" onclick="pfSub('lvl')"><b>🎓</b><div><em>${t("choose")}</em><small>${t("lf",S.lvl)} · ${t("l"+S.lvl)}</small></div></button></div>
+<div class="xrow"><button class="xg xw" onclick="pfSub('stat')"><b>🏆</b><div><em>${t("ach")}</em><small>${t("wk")}</small></div></button><button class="xg xs" onclick="pfSub('goal')"><b>🎯</b><span>${S.goal||GOAL} ${t("u1")}</span></button></div>
+<button class="xg xb" onclick="adGate()"><b>🛠</b><div><em>${t("adm")}</em><small>${t("adh")}</small></div><i>›</i></button>`;
+if(U&&U.photo_url){const im=new Image();im.onload=()=>{const a=$("av");if(a){a.innerHTML="";a.appendChild(im)}};im.src=U.photo_url}go("pf")}
+let PSK="lang";
+function pfSub(k){PSK=k;const acc=S.qt?Math.round(S.qc/S.qt*100):0;let h="";
+if(k==="lang")h=`<div class="card"><h3>${t("lng")}</h3>${[["uz","Oʻzbekcha"],["ru","Русский"],["en","English"]].map(a=>`<button class="lv${S.lang==a[0]?" on":""}" onclick="setLang('${a[0]}')"><span class="rd"></span><b>${a[1]}</b></button>`).join("")}</div>`;
+else if(k==="lvl")h=`<div class="card"><h3>${t("choose")}</h3>${[1,2,3,4].map(l=>`<button class="lv${l==S.lvl?" on":""}" onclick="pickLvl(${l})"><span class="rd"></span><span><b>${t("lf",l)} · ${t("l"+l)}</b><br><small>${t("ld"+l)}</small></span></button>`).join("")}</div><button class="btn" onclick="go('ob1')">${t("redo")}</button><button class="mp full red" onclick="resetAll()">${t("reset")}</button>`;
+else if(k==="goal")h=`<div class="card"><h3>${t("pgoal")}</h3><div class="pills">${[20,30,50].map(g=>`<button class="pl${g==(S.goal||GOAL)?" on":""}" onclick="setGoal(${g})">${g} ${t("u1")}</button>`).join("")}</div><div class="hint2" style="margin-top:14px">${t("gdesc")}</div></div>`;
+else{const wk=[0,1,2,3,4,5,6].map(i=>{const d=day(6-i);return[d,(S.hist||{})[d]||0]}),mx=Math.max(20,...wk.map(x=>x[1])),BG=[S.known.length>=1,stk()>=3,S.known.length>=50,S.xp>=500,S.qz>=10,S.qt>=20&&acc>=80],BE=["🌱","🔥","📚","⭐","🎯","🏅"];
+h=`<div class="g2">${mini("star",S.xp,"xp")}${mini("flame",stk(),"st")}${mini("book",S.known.length,"kn")}${mini("check",acc+"%","acc")}</div>
+<div class="card"><h3>${t("wk")}</h3><div class="wkc">${wk.map(a=>`<div><i style="height:${a[1]/mx*100}%"></i><span>${a[0].slice(8)}</span></div>`).join("")}</div></div>
+<div class="card"><h3>${t("ach")}</h3><div class="bgs">${BG.map((b,i)=>`<div class="bgd${b?" on":""}"><div>${BE[i]}</div><small>${t("bg"+(i+1))}</small></div>`).join("")}</div></div>`}
+$("psb").innerHTML=h;$("pst").textContent={lang:t("lng"),lvl:t("choose"),goal:t("pgoal"),stat:t("ach")}[k];go("ps")}
+function openVideo(i){cu=i;const u=UN[i],v=u.v||"",box=$("vp");box.innerHTML="";$("vt").textContent=ui(u.n);
+const m=v.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
+if(m){const f=document.createElement("iframe");f.src="https://www.youtube-nocookie.com/embed/"+m[1]+"?rel=0";f.allow="accelerometer;autoplay;encrypted-media;picture-in-picture;fullscreen";f.allowFullscreen=true;box.appendChild(f)}
+else if(/\.(mp4|webm|ogg)(\?|$)/i.test(v)){const e=document.createElement("video");e.src=v;e.controls=true;e.playsInline=true;box.appendChild(e)}
+else{const a=document.createElement("a");a.href=v;a.target="_blank";a.rel="noopener";a.className="btn";a.textContent=t("vo");box.appendChild(a)}
+go("vd")}
+const hp=x=>{let h=5381;for(const c of x)h=((h*33)^c.charCodeAt(0))>>>0;return h.toString(36)};
+let AL=1,AU=false,AE=-1,AL2=1;
+function adGate(){if(AU)return adList();let has=null;try{has=localStorage.getItem(PK)}catch(e){}
+$("adb").innerHTML=`<div class="hero"><span class="bd">🛠</span><h1>Boshqaruv paneli</h1><p>${has?"PIN-kodni kiriting":"PIN-kod oʻrnating (kamida 4 ta raqam)"}</p><div class="ghost">관리</div></div><div class="card"><input id="apin" type="password" inputmode="numeric" placeholder="••••"><div class="err" id="aer"></div><button class="btn" onclick="adLogin()">Kirish</button></div>`;go("ad")}
+function adLogin(){const v=$("apin").value;let k=null;try{k=localStorage.getItem(PK)}catch(e){}
+if(!k){if(!/^\d{4,}$/.test(v)){$("aer").textContent="Kamida 4 ta raqam kiriting.";return}try{localStorage.setItem(PK,hp(v))}catch(e){}}
+else if(hp(v)!==k){$("aer").textContent="PIN notoʻgʻri.";return}
+AU=true;adList()}
+function adList(){const L=UN.map((u,i)=>[u,i]).filter(x=>x[0].l===AL);
+$("adb").innerHTML=`<div class="hero"><span class="bd">🛠</span><h1>Boshqaruv paneli</h1><p>Darslar nomi, soʻzlar, gaplar, grammatika va video — hammasini shu yerda oʻzgartirasiz.</p><div class="ghost">관리</div></div>
+<div class="card hint2">Oʻzgarishlar shu qurilmada saqlanadi. Hamma foydalanuvchiga yetkazish uchun pastdagi «Eksport» tugmasi bilan content.json faylini oling va saytga yuklang.</div>
+<div class="pills" style="margin-bottom:12px">${[1,2,3,4].map(l=>`<button class="pl${l==AL?" on":""}" onclick="AL=${l};adList()">${t("lf",l)}</button>`).join("")}</div>
+${L.map(([u,i])=>`<div class="arow"><div class="eb">${esc(u.e)}</div><div class="at"><b>${esc(ui(u.n))}</b><small>${u.w.length} soʻz · ${u.s.length} gap${u.v?" · 🎬":""}</small></div><button class="ic s" onclick="adMove(${i},-1)">↑</button><button class="ic s" onclick="adMove(${i},1)">↓</button><button class="ic s" onclick="adEdit(${i})">✎</button><button class="ic s" onclick="adDel(${i})">🗑</button></div>`).join("")}
+<button class="btn" onclick="adEdit(-1)">＋ Yangi dars</button>
+<div class="card" style="margin-top:16px"><h3>Eksport / Import</h3><button class="btn" onclick="adExp()">⬇️ Eksport (content.json)</button><button class="btn alt" onclick="adCopy()">📋 Nusxalash</button><textarea id="aimp" placeholder="JSON matnini shu yerga qoʻying"></textarea><button class="btn alt" onclick="adImp()">⬆️ Import</button><button class="mp full red" onclick="adRst()">Asl holatga qaytarish</button><div class="err" id="aer"></div></div>`;go("ad")}
+function adMove(i,d){let j=i+d;while(j>=0&&j<UN.length&&UN[j].l!==UN[i].l)j+=d;if(j<0||j>=UN.length)return;[UN[i],UN[j]]=[UN[j],UN[i]];saveContent();adList()}
+function adDel(i){if(confirm("Bu darsni oʻchirasizmi?")){UN.splice(i,1);saveContent();adList()}}
+function adEdit(i){AE=i;const u=i<0?{e:"📘",n:["","",""],w:[],s:[],g:["","",""],l:AL,v:""}:UN[i];
+const F=(id,l,v)=>`<label>${l}</label><input id="${id}" value="${esc(v)}">`,A=(id,l,v)=>`<label>${l}</label><textarea id="${id}">${esc(v)}</textarea>`,G3=k=>(u.g[k]||"").split("¶").join("\n");
+$("aeb").innerHTML=`<div class="card"><h3>${i<0?"Yangi dars":"Darsni tahrirlash"}</h3>${F("fe","Emoji",u.e)}${F("fn0","Nomi (oʻzbekcha)",u.n[0]||"")}${F("fn1","Nomi (ruscha)",u.n[1]||"")}${F("fn2","Nomi (inglizcha)",u.n[2]||"")}
+<label>Daraja</label><div class="pills" id="flv">${[1,2,3,4].map(l=>`<button class="pl${l==u.l?" on":""}" onclick="AL2=${l};adLv()">${l}</button>`).join("")}</div>
+${F("fv","Video havolasi (YouTube yoki .mp4)",u.v||"")}
+${A("fw","Soʻzlar — har qatorda: koreys|talaffuz|oʻzbekcha|ruscha|inglizcha",u.w.map(w=>w.join("|")).join("\n"))}
+${A("fs","Gaplar — shu formatda",u.s.map(w=>w.join("|")).join("\n"))}
+${A("fg0","Grammatika (oʻzbekcha) — har qatorda bitta band",G3(0))}${A("fg1","Grammatika (ruscha)",G3(1))}${A("fg2","Grammatika (inglizcha)",G3(2))}
+<div class="err" id="aer2"></div><button class="btn" onclick="adSave()">Saqlash</button><button class="btn alt" onclick="adList()">Bekor qilish</button></div>`;AL2=u.l;go("ae")}
+function adLv(){[...$("flv").children].forEach((b,k)=>b.classList.toggle("on",k+1===AL2))}
+function adSave(){const P=id=>$(id).value.split("\n").map(x=>x.trim()).filter(Boolean),R=a=>a.map(x=>x.split("|").map(y=>y.trim())),w=R(P("fw")),s=R(P("fs"));
+if(!$("fn0").value.trim()||!w.length||[...w,...s].some(r=>r.length<3||!r[0]||!r[2])){$("aer2").textContent="Xato: nom kiritilsin va har qatorda kamida 3 ta boʻlim (koreys|talaffuz|tarjima) boʻlsin.";return}
+const u={e:$("fe").value.trim()||"📘",n:[0,1,2].map(k=>$("fn"+k).value.trim()),w,s,g:[0,1,2].map(k=>P("fg"+k).join("¶")),l:AL2,v:$("fv").value.trim()};
+if(AE<0)UN.push(u);else UN[AE]=u;AL=u.l;saveContent();adList()}
+function adExp(){const b=new Blob([JSON.stringify(UN,null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="content.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+function adCopy(){const j=JSON.stringify(UN);try{navigator.clipboard.writeText(j).then(()=>{$("aer").textContent="Nusxalandi ✓"},()=>{$("aimp").value=j;$("aimp").select()})}catch(e){$("aimp").value=j;$("aimp").select()}}
+function adImp(){if(loadContent($("aimp").value)){saveContent();adList()}else $("aer").textContent="JSON notoʻgʻri."}
+function adRst(){if(confirm("Barcha oʻzgarishlar oʻchib, asl holat tiklanadi. Davom etasizmi?")){try{localStorage.removeItem(CK)}catch(e){}location.reload()}}
+function pickLvl(l){S.lvl=l;save();deck=[];Q=[];pfSub('lvl')}
+function setGoal(g){S.goal=g;save();pfSub('goal')}
+function resetAll(){const m=t("rc"),run=ok=>{if(!ok)return;S=Object.assign(JSON.parse(JSON.stringify(DEF)),{lang:S.lang});save();deck=[];Q=[];R=null;home()};
+try{tg.showConfirm(m,run)}catch(e){run(confirm(m))}}
+let cu=0,qu=-1,ri=0,rs=[],rc=0,ch=[],pick=[],bank=[],rdone=false;
+const lvU=()=>UN.map((u,i)=>[u,i]).filter(x=>x[0].l===S.lvl);
+const known=u=>u.w.filter(w=>S.known.includes(w[0])).length;
+function mkRow(e,a,b,fn){const x=document.createElement("button");x.className="un";x.innerHTML='<div class="eb">'+e+'</div><div><b></b><small></small></div>';
+x.querySelector("b").textContent=a;x.querySelector("small").textContent=b;x.onclick=fn;return x}
+function openUnits(){if(!S.lvl)return home();$("un").innerHTML="";
+lvU().forEach(([u,i])=>{const k=known(u),b=mkRow(u.e,ui(u.n),k+" / "+u.w.length+" "+t("u3"),()=>openUnit(i));
+const bar=document.createElement("div");bar.className="bar";bar.innerHTML='<i style="width:'+k/u.w.length*100+'%"></i>';b.children[1].appendChild(bar);$("un").appendChild(b)});
+$("ut").textContent=t("lf",S.lvl)+" · "+t("l"+S.lvl);go("ul")}
+function openUnit(i){cu=i;const u=UN[i];
+$("ue").textContent=u.e;$("uh1").textContent=ui(u.n);$("ub").textContent=t("lf",u.l)+" · "+known(u)+" / "+u.w.length;
+$("uk").innerHTML="";
+[...(u.v?[["🎬",t("vd"),"",()=>openVideo(i)]]:[]),["📚",t("wd"),u.w.length+" "+t("u3"),()=>startCards(i)],["💬",t("sw"),u.s.length+" "+t("u6"),openSent],["📖",t("gm"),"",openGram],["🧩",t("ex"),"+5 "+t("u1"),startEx],["🎯",t("nav2"),"+10 "+t("u1"),()=>startQuiz(i)]]
+.forEach(r=>$("uk").appendChild(mkRow(r[0],r[1],r[2],r[3])));go("uh")}
+function startNext(){if(!S.lvl)return home();const l=lvU(),n=l.find(x=>known(x[0])<x[0].w.length)||l[0];openUnit(n[1])}
+function openSent(){$("sl").innerHTML="";UN[cu].s.forEach(s=>{const d=document.createElement("div");d.className="sen";
+d.innerHTML='<div><div class="k"></div><div class="p"></div><div class="m"></div></div><button class="ic s"></button>';
+d.querySelector(".k").textContent=s[0];d.querySelector(".p").textContent=s[1];d.querySelector(".m").textContent=mean(s);
+const b=d.querySelector("button");b.innerHTML=SP;b.onclick=()=>speak(s[0]);$("sl").appendChild(d)});go("sn")}
+function openGram(){$("gt").innerHTML="";ui(UN[cu].g).split("¶").forEach(x=>{const p=document.createElement("p");p.textContent=x;$("gt").appendChild(p)});go("gm")}
+const mkTx=x=>{const b=document.createElement("button");b.className="tx";b.textContent=x;return b};
+function startEx(){rs=shuf(UN[cu].s);ri=0;rc=0;showEx();go("rx")}
+function showEx(){const s=rs[ri];$("rn").textContent=(ri+1)+" / "+rs.length;$("rb").style.width=ri/rs.length*100+"%";$("rm").textContent=mean(s);
+ch=s[0].split(" ");const id=ch.map((c,i)=>i);let o;do{o=shuf(id)}while(ch.length>1&&o.join()===id.join());bank=o;pick=[];rdone=false;drawEx()}
+function drawEx(){$("ra").innerHTML="";$("rk").innerHTML="";$("ra").className="ans";
+pick.forEach(i=>{const b=mkTx(ch[i]);b.onclick=()=>{if(rdone)return;pick.splice(pick.indexOf(i),1);drawEx()};$("ra").appendChild(b)});
+bank.forEach(i=>{const b=mkTx(ch[i]);b.disabled=pick.includes(i);b.onclick=()=>{if(rdone)return;pick.push(i);drawEx();if(pick.length===ch.length)checkEx()};$("rk").appendChild(b)})}
+function checkEx(){rdone=true;const s=rs[ri],good=pick.map(i=>ch[i]).join(" ")===s[0];
+$("ra").classList.add(good?"ok":"no");hap(good?"success":"error");if(good){rc++;speak(s[0])}else $("rm").textContent=s[0]+"  ·  "+mean(s);
+setTimeout(()=>{ri++;if(ri>=rs.length){addXP(rc*5);openUnit(cu)}else showEx()},good?1200:2400)}
+let KV=null;
+function pickVoice(){try{KV=speechSynthesis.getVoices().find(v=>/^ko/i.test(v.lang))||null}catch(e){}}
+try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
+function msg(){const m=t("snd");try{tg.showAlert(m)}catch(e){alert(m)}}
+function web(x,i){const u=["https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ko&q=","https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=ko&q="];
+i=i||0;if(i>=u.length)return msg();let d=0;const nx=()=>{if(!d){d=1;web(x,i+1)}};
+try{const a=new Audio(u[i]+encodeURIComponent(x));a.onerror=nx;a.play().catch(nx)}catch(e){nx()}}
+function speak(x){if(/Android/i.test(navigator.userAgent))return web(x);try{
+if(!window.speechSynthesis||!window.SpeechSynthesisUtterance)throw 0;
+pickVoice();if(!KV)throw 0;
+const u=new SpeechSynthesisUtterance(x);u.lang="ko-KR";u.voice=KV;u.rate=.8;u.onerror=()=>web(x);
+if(speechSynthesis.speaking)speechSynthesis.cancel();
+setTimeout(()=>speechSynthesis.speak(u),60)}catch(e){web(x)}}
+let DP=null;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();DP=e;$("inst").classList.remove("hide")});
+addEventListener("appinstalled",()=>{DP=null;$("inst").classList.add("hide")});
+function installApp(){if(!DP)return;DP.prompt();DP.userChoice.finally(()=>{DP=null;$("inst").classList.add("hide")});toggleMenu()}
+if("serviceWorker" in navigator&&/^https?:/.test(location.protocol))addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+if(!LOCAL&&/^https?:/.test(location.protocol))fetch("content.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(j=>{if(j&&loadContent(j)){try{({home}[scr]||(()=>{}))()}catch(e){}}}).catch(()=>{});
+applyLang();home();
+</script>
+</body></html>
