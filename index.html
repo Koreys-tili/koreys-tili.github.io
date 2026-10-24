@@ -414,12 +414,14 @@ UD.split("\n").forEach(l=>{const c=l[0],d=l.slice(2);
 if(c==="@"){const a=d.split("|");UN.push({e:a[0],n:a.slice(1),w:[],s:[],g:[]})}
 else{const u=UN[UN.length-1];if(c==="w")u.w=d.split(";").map(x=>x.split("|"));else if(c==="s")u.s=d.split(";").map(x=>x.split("|"));else if(c==="l")u.l=+d;else u.g=d.split("|")}});
 UN.forEach((u,i)=>{if(!u.l)u.l=Math.floor(i/3)+1});
+const UN0=JSON.stringify(UN);
 const CK="koreys_content",PK="koreys_pin";
 const esc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function loadContent(j){try{const a=typeof j==="string"?JSON.parse(j):j;if(!Array.isArray(a)||!a.length)return false;
 const n=a.map(u=>({e:u.e||"📘",n:u.n||["?"],w:u.w||[],s:u.s||[],g:u.g||[""],l:+u.l||1,v:u.v||""}));UN.length=0;n.forEach(u=>UN.push(u));return true}catch(e){return false}}
-const saveContent=()=>{try{localStorage.setItem(CK,JSON.stringify(UN))}catch(e){}};
+const saveContent=()=>{try{localStorage.setItem(CK,JSON.stringify(UN))}catch(e){}pushRemote()};
 let LOCAL=false;try{const lc=localStorage.getItem(CK);if(lc)LOCAL=loadContent(lc)}catch(e){}
+try{const rc=localStorage.getItem("koreys_remote");if(rc&&loadContent(rc))LOCAL=true}catch(e){}
 const words=()=>UN.filter(u=>u.l===S.lvl).flatMap(u=>u.w),mean=w=>w[LI[S.lang]]||w[2],ui=a=>a[LI[S.lang]-2]||a[0];
 let scr="home";
 const MAP={home:0,ul:0,uh:0,sn:0,gm:0,rx:0,vd:0,cd:1,qz:2,qr:2,hg:3,pf:4,ps:4,ad:4,ae:4};
@@ -541,8 +543,16 @@ else if(/\.(mp4|webm|ogg)(\?|$)/i.test(v)){const e=document.createElement("video
 else{const a=document.createElement("a");a.href=v;a.target="_blank";a.rel="noopener";a.className="btn";a.textContent=t("vo");box.appendChild(a)}
 go("vd")}
 const hp=x=>{let h=5381;for(const c of x)h=((h*33)^c.charCodeAt(0))>>>0;return h.toString(36)};
-let AL=1,AU=false,AE=-1,AL2=1;
-function adGate(){if(AU)return adList();let has=null;try{has=localStorage.getItem(PK)}catch(e){}
+let AL=1,AU=false,AE=-1,AL2=1,RST="";
+function pushRemote(){if(window.FB&&FB.user()){RST="…";FB.push(JSON.stringify(UN)).then(()=>{RST="ok";adStat()}).catch(e=>{RST="err:"+(e.code||e.message);adStat()})}else RST="local";adStat()}
+function adStat(){const e=$("adst");if(!e)return;e.textContent=RST==="ok"?"✓ Hammaga yuborildi. Endi hamma ilovada koʻrinadi.":RST==="…"?"Yuborilmoqda…":RST==="local"?"Faqat shu telefonda saqlandi (tizimga kirmagansiz yoki internet yoʻq).":RST.startsWith("err")?"Xato: "+RST.slice(4)+". Firestore qoidalarini va admin emailni tekshiring.":""}
+function adOut(){FB.logout().then(()=>{AU=false;adGate()})}
+function adGate(){if(AU)return adList();if(window.FB&&FB.user()){AU=true;return adList()}if(window.FB)return adAuth();adPin()}
+function adAuth(){$("adb").innerHTML=`<div class="hero"><span class="bd">🛠</span><h1>Boshqaruv paneli</h1><p>Admin email va parolingiz bilan kiring.</p><div class="ghost">관리</div></div><div class="card"><label>Email</label><input id="aem" type="email" autocomplete="username"><label>Parol</label><input id="apw" type="password" autocomplete="current-password"><div class="err" id="aer"></div><button class="btn" onclick="adSignIn()">Kirish</button></div>`;go("ad")}
+function adSignIn(){const e=$("aem").value.trim(),p=$("apw").value;if(!e||!p){$("aer").textContent="Email va parolni kiriting.";return}
+FB.login(e,p).then(()=>{AU=true;adList()}).catch(x=>{$("aer").textContent="Kirish xatosi: "+(x.code||x.message)})}
+window.onRemote=function(j){try{if(j){localStorage.setItem("koreys_remote",j);if(loadContent(j)){LOCAL=true;if(scr==="home")home();else if(scr==="uh")UN[cu]?openUnit(cu):home();else if(scr==="ul")openUnits()}}else localStorage.removeItem("koreys_remote")}catch(e){}};
+function adPin(){let has=null;try{has=localStorage.getItem(PK)}catch(e){}
 $("adb").innerHTML=`<div class="hero"><span class="bd">🛠</span><h1>Boshqaruv paneli</h1><p>${has?"PIN-kodni kiriting":"PIN-kod oʻrnating (kamida 4 ta raqam)"}</p><div class="ghost">관리</div></div><div class="card"><input id="apin" type="password" inputmode="numeric" placeholder="••••"><div class="err" id="aer"></div><button class="btn" onclick="adLogin()">Kirish</button></div>`;go("ad")}
 function adLogin(){const v=$("apin").value;let k=null;try{k=localStorage.getItem(PK)}catch(e){}
 if(!k){if(!/^\d{4,}$/.test(v)){$("aer").textContent="Kamida 4 ta raqam kiriting.";return}try{localStorage.setItem(PK,hp(v))}catch(e){}}
@@ -550,11 +560,11 @@ else if(hp(v)!==k){$("aer").textContent="PIN notoʻgʻri.";return}
 AU=true;adList()}
 function adList(){const L=UN.map((u,i)=>[u,i]).filter(x=>x[0].l===AL);
 $("adb").innerHTML=`<div class="hero"><span class="bd">🛠</span><h1>Boshqaruv paneli</h1><p>Darslar nomi, soʻzlar, gaplar, grammatika va video — hammasini shu yerda oʻzgartirasiz.</p><div class="ghost">관리</div></div>
-<div class="card hint2">Oʻzgarishlar shu qurilmada saqlanadi. Hamma foydalanuvchiga yetkazish uchun pastdagi «Eksport» tugmasi bilan content.json faylini oling va saytga yuklang.</div>
+<div class="card hint2"><div id="adst" style="font-weight:700;margin-bottom:6px"></div>${window.FB&&FB.user()?"👤 "+esc(FB.user().email)+' <button class="pl" onclick="adOut()">Chiqish</button><br>':""}Tizimga kirgan holda qilgan oʻzgarishlaringiz <b>hamma foydalanuvchiga</b> darhol yetadi. Kirmasangiz, faqat shu telefonda saqlanadi (Eksport bilan content.json ham olsa boʻladi).</div>
 <div class="pills" style="margin-bottom:12px">${[1,2,3,4].map(l=>`<button class="pl${l==AL?" on":""}" onclick="AL=${l};adList()">${t("lf",l)}</button>`).join("")}</div>
 ${L.map(([u,i])=>`<div class="arow"><div class="eb">${esc(u.e)}</div><div class="at"><b>${esc(ui(u.n))}</b><small>${u.w.length} soʻz · ${u.s.length} gap${u.v?" · 🎬":""}</small></div><button class="ic s" onclick="adMove(${i},-1)">↑</button><button class="ic s" onclick="adMove(${i},1)">↓</button><button class="ic s" onclick="adEdit(${i})">✎</button><button class="ic s" onclick="adDel(${i})">🗑</button></div>`).join("")}
 <button class="btn" onclick="adEdit(-1)">＋ Yangi dars</button>
-<div class="card" style="margin-top:16px"><h3>Eksport / Import</h3><button class="btn" onclick="adExp()">⬇️ Eksport (content.json)</button><button class="btn alt" onclick="adCopy()">📋 Nusxalash</button><textarea id="aimp" placeholder="JSON matnini shu yerga qoʻying"></textarea><button class="btn alt" onclick="adImp()">⬆️ Import</button><button class="mp full red" onclick="adRst()">Asl holatga qaytarish</button><div class="err" id="aer"></div></div>`;go("ad")}
+<div class="card" style="margin-top:16px"><h3>Eksport / Import</h3>${window.FB&&FB.user()?'<button class="btn" onclick="pushRemote()">☁️ Hammaga yuborish</button>':""}<button class="btn" onclick="adExp()">⬇️ Eksport (content.json)</button><button class="btn alt" onclick="adCopy()">📋 Nusxalash</button><textarea id="aimp" placeholder="JSON matnini shu yerga qoʻying"></textarea><button class="btn alt" onclick="adImp()">⬆️ Import</button><button class="mp full red" onclick="adRst()">Asl holatga qaytarish</button><div class="err" id="aer"></div></div>`;adStat();go("ad")}
 function adMove(i,d){let j=i+d;while(j>=0&&j<UN.length&&UN[j].l!==UN[i].l)j+=d;if(j<0||j>=UN.length)return;[UN[i],UN[j]]=[UN[j],UN[i]];saveContent();adList()}
 function adDel(i){if(confirm("Bu darsni oʻchirasizmi?")){UN.splice(i,1);saveContent();adList()}}
 function adEdit(i){AE=i;const u=i<0?{e:"📘",n:["","",""],w:[],s:[],g:["","",""],l:AL,v:""}:UN[i];
@@ -574,7 +584,8 @@ if(AE<0)UN.push(u);else UN[AE]=u;AL=u.l;saveContent();adList()}
 function adExp(){const b=new Blob([JSON.stringify(UN,null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="content.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 function adCopy(){const j=JSON.stringify(UN);try{navigator.clipboard.writeText(j).then(()=>{$("aer").textContent="Nusxalandi ✓"},()=>{$("aimp").value=j;$("aimp").select()})}catch(e){$("aimp").value=j;$("aimp").select()}}
 function adImp(){if(loadContent($("aimp").value)){saveContent();adList()}else $("aer").textContent="JSON notoʻgʻri."}
-function adRst(){if(confirm("Barcha oʻzgarishlar oʻchib, asl holat tiklanadi. Davom etasizmi?")){try{localStorage.removeItem(CK)}catch(e){}location.reload()}}
+function adRst(){if(confirm("Barcha oʻzgarishlar oʻchib, asl holat tiklanadi (hammada ham). Davom etasizmi?")){try{localStorage.removeItem(CK);localStorage.removeItem("koreys_remote")}catch(e){}
+(window.FB&&FB.user()?FB.clear():Promise.resolve()).catch(()=>{}).then(()=>location.reload())}}
 function pickLvl(l){S.lvl=l;save();deck=[];Q=[];pfSub('lvl')}
 function setGoal(g){S.goal=g;save();pfSub('goal')}
 function resetAll(){const m=t("rc"),run=ok=>{if(!ok)return;S=Object.assign(JSON.parse(JSON.stringify(DEF)),{lang:S.lang});save();deck=[];Q=[];R=null;home()};
@@ -629,5 +640,18 @@ function installApp(){if(!DP)return;DP.prompt();DP.userChoice.finally(()=>{DP=nu
 if("serviceWorker" in navigator&&/^https?:/.test(location.protocol))addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 if(!LOCAL&&/^https?:/.test(location.protocol))fetch("content.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(j=>{if(j&&loadContent(j)){try{({home}[scr]||(()=>{}))()}catch(e){}}}).catch(()=>{});
 applyLang();home();
+</script>
+<script type="module">
+const cfg={apiKey:"AIzaSyDNWTHxBdpqHpH04kfQSFHgNXSmDi42r8c",authDomain:"koreys-tili-dcd7d.firebaseapp.com",projectId:"koreys-tili-dcd7d",storageBucket:"koreys-tili-dcd7d.firebasestorage.app",messagingSenderId:"572165498105",appId:"1:572165498105:web:854793d087d1249eb72e28"};
+try{
+const V="10.12.2",B="https://www.gstatic.com/firebasejs/"+V+"/";
+const {initializeApp}=await import(B+"firebase-app.js");
+const {getFirestore,doc,onSnapshot,setDoc,deleteDoc}=await import(B+"firebase-firestore.js");
+const {getAuth,signInWithEmailAndPassword,signOut}=await import(B+"firebase-auth.js");
+const app=initializeApp(cfg),db=getFirestore(app),auth=getAuth(app),ref=doc(db,"content","main");
+window.FB={user:()=>auth.currentUser,login:(e,p)=>signInWithEmailAndPassword(auth,e,p),logout:()=>signOut(auth),
+push:j=>setDoc(ref,{json:j,t:Date.now(),by:(auth.currentUser&&auth.currentUser.email)||""}),clear:()=>deleteDoc(ref)};
+onSnapshot(ref,s=>{if(window.onRemote)window.onRemote(s.exists()&&s.data().json?s.data().json:null)},()=>{});
+}catch(e){}
 </script>
 </body></html>
